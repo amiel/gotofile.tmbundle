@@ -74,9 +74,9 @@ module FileFinder
     def head_stuff
       return <<-HTML
         <style type="text/css">
-          .file{ border: 1px solid black; margin: 0.25em 0; }
+          .file{ margin: 0.25em 0; }
           .file a{ padding-left: 1.25em; display: block; width: 85%; overflow: hidden; }
-          .file .score_wrapper{ float:left; width: 10%; height: 1em; border:1px solid white; }
+          .file .score_wrapper{ float:left; width: 10%; height: 1em; border:1px solid #ccc; }
           .file .score{ background-color: #494949; width: 1%; height: 100%; }
           .highlight{ color: #fff; background-color: #494949; }
         </style>
