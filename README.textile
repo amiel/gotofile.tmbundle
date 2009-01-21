@@ -1,16 +1,16 @@
-= FuzzyFileFinder.tmbundle
+h2. FuzzyFileFinder.tmbundle
 
 FuzzyFileFinder is a (somewhat improved) implementation of TextMate's &#x2318;T functionality written by Jamis Buck (http://github.com/jamis/fuzzy_file_finder/tree/master). It allows you to search for a file by specifying a pattern of characters that appear in that file's name. Unlike TextMate, FuzzyFileFinder also lets you match against the file's directory, so you can more easily scope your search.
 
 This bundle is really just a proof-of-concept to bring FuzzyFileFinder back to textmate. This bundle however isn't quite as useful as TextMate's &#x2318;T as it is not integrated enough with TextMate. I'm hoping that somebody will be interested in rewriting this to work with Dialog2.
 
-== SYNOPSIS:
+h3. SYNOPSIS:
 
 open a project, and then a file within the project (because bundle commands only work when a file is open)
 
 then: &#x21E7;&#x2318;K (shift-command-K), and type part of a filename
 
-== INSTALL:
+h3. INSTALL:
 
 Run this:
 
@@ -18,6 +18,6 @@ Run this:
 	git clone git://github.com/amiel/fuzzyfilefinder.tmbundle.git FuzzyFileFinder.tmbundle
 
 
-== LICENSE:
+h3. LICENSE:
 
 All code, documentation, and related materials in this project are released into the PUBLIC DOMAIN. Usage, modification, and distribution are allowed without restriction.
