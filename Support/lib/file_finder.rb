@@ -42,6 +42,7 @@ module FileFinder
         else
           io << '<div id="wrapper">'
           matches.sort{|b,a| a[:score] <=> b[:score] }.each do |match|
+            next if TextMate::ProjectFileFilter.new.binary?(match[:path])
             io << output_for_match(match)
           end
           io << '</div>'
