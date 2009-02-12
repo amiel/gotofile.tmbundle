@@ -10,6 +10,12 @@ open a project, and then a file within the project (because bundle commands only
 
 then: &#x21E7;&#x2318;K (shift-command-K), and type part of a filename
 
+h3. ALTERNATIVES
+
+Although the functionality and concept here is excellent, usability is pretty terrible. The problem is that this bundle is written using the standard HTML output, which allows for nice output, but very little interaction for the user. The two biggest things missing for usability are: live searching on each keystroke, and the ability to select the file from the keyboard once the search is over. Eric O'Connel has made an attempt to fix the later issue here: http://github.com/drd/fuzzyfilefinder.tmbundle/tree/master. His solution allows the user to select a file with arrows and enter, but looses the colorful highlighting that indicates what matched.
+
+Surely this could be implemented with MacRuby, Interface Builder, and Dialog2. Anyone?
+
 h3. INSTALL:
 
 Run this:
