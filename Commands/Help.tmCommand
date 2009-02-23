@@ -5,20 +5,21 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby
-require ENV['TM_BUNDLE_SUPPORT'] + '/lib/file_finder.rb'
-FileFinder.run</string>
-	<key>fallbackInput</key>
-	<string>line</string>
+	<string>
+. "$TM_SUPPORT_PATH/lib/webpreview.sh"
+
+html_header "Get Bundles — Help" "Get Bundles" "Help"
+
+"$TM_SUPPORT_PATH/lib/markdown_to_help.rb" "$TM_BUNDLE_SUPPORT/help.mdown"
+
+html_footer</string>
 	<key>input</key>
 	<string>none</string>
-	<key>keyEquivalent</key>
-	<string>@K</string>
 	<key>name</key>
-	<string>find a file</string>
+	<string>Help</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>uuid</key>
-	<string>0613D22E-A6BB-4F96-9BFD-1995C43CA8BE</string>
+	<string>0ACF99C3-3A64-4A06-BDA7-4FA4E3C2F6A3</string>
 </dict>
 </plist>
