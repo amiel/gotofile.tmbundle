@@ -63,8 +63,8 @@ cat &lt;&lt;-HTML
     width: 100%;
     padding: 1mm;
   }
-  &lt;/style&gt; 
-  &lt;script&gt;
+	&lt;/style&gt; 
+	&lt;script&gt;
 var myCommand = null;
 var actpath = "";
 var oldterm;
@@ -75,6 +75,7 @@ outStr = "";
 var aTimer;
 var term;
 var ft;
+var current_file=null;
 function startSearch(t) {
     term = t;
     window.clearTimeout(aTimer);
@@ -84,6 +85,7 @@ function startSearchTimed() {
     TextMate.isBusy = true;
     outStr = "";
     document.getElementById("result").innerHTML = "";
+	setSelection(null);
     var cmd = "/usr/bin/ruby '$TM_BUNDLE_SUPPORT/lib/FileFinder.rb' '" + term + "'";
     myCommand = TextMate.system(cmd,
     function(task) {});
@@ -93,6 +95,8 @@ function startSearchTimed() {
 function output(str) {
     outStr += str;
     document.getElementById("result").innerHTML = outStr;
+	if (current_file == null)
+		changeSelect(1)
 }
 function setFile(path) {
     actpath = path;
@@ -141,9 +145,66 @@ function myClick(path) {
     else if (event.altKey) openFile();
     else goto();
 }
+function setSelection(item) {
+	if (item == current_file) return;
+	if (current_file) {
+		current_file.parentNode.parentNode.style.background = "";
+		current_file.style.display = "";
+		setFile('');
+	}
+	current_file = item;
+	if (current_file) {
+		current_file.parentNode.parentNode.style.background = "lightblue";
+		current_file.style.display = "none";
+		current_file.onfocus();
+	}
+}
+function changeSelect(y) {
+	var oItems = document.getElementById('result').getElementsByTagName("input");
+	var iCurIndex = -1;
+	if (current_file)
+		for (var i=0; i &lt; oItems.length; i++) {
+			if (oItems[i] == current_file) {
+				iCurIndex = i;
+				break;
+			}
+		};
+	iCurIndex += y;
+	if (iCurIndex &gt;= oItems.length) iCurIndex = 0;
+	if (iCurIndex &lt; 0) iCurIndex = oItems.length - 1;
+	if (iCurIndex &gt;= 0 &amp;&amp; iCurIndex &lt; oItems.length) {
+		setSelection(oItems[iCurIndex]);
+	}
+	else {
+		setSelection(null);
+	};
+}
+document.onkeydown = function keyPress(event) {
+    if (typeof event == "undefined") event = window.event;
+    wkey = event.keyCode;
+    if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
+	  event.stopPropagation();
+	  event.preventDefault();
+	var iDiff = 1;
+	if (wkey == 33)
+		iDiff = -10;
+	else if (wkey == 34)
+		iDiff = 10;
+	else if (wkey == 38)
+		iDiff = -1;
+	  changeSelect(iDiff);
+    } else if (wkey == 13) {
+	  event.stopPropagation();
+	  event.preventDefault();
+	}
+}
 document.onkeyup = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
     wkey = event.keyCode;
+    if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
+	  event.stopPropagation();
+	  event.preventDefault();
+    }
     if (wkey == 27) window.close();
     if (wkey == 32) quicklook();
     if (wkey == 13) {
@@ -151,6 +212,8 @@ document.onkeyup = function keyPress(event) {
         else if (event.shiftKey) insertRelPath();
         else if (event.altKey) openFile();
         else goto();
+	  event.stopPropagation();
+	  event.preventDefault();
     }
 }
 	&lt;/script&gt;
