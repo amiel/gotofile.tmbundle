@@ -9,7 +9,7 @@
 	<key>description</key>
 	<string>Uses Jamis Bucks fuzzy file finder: http://github.com/jamis/fuzzy_file_finder/tree/master</string>
 	<key>name</key>
-	<string>FuzzyFileFinder</string>
+	<string>GoToFile</string>
     <key>uuid</key>
     <string>4A51CFD1-BBCD-4F91-8AD1-8F250A99E25E</string>
 </dict>
