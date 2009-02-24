@@ -83,6 +83,7 @@ var aTimer;
 var term;
 var ft;
 var current_file=null;
+var current_ql_command=null;
 function startSearch(t) {
     term = t;
     window.clearTimeout(aTimer);
@@ -142,7 +143,10 @@ function openFile() {
     }
 }
 function quicklook() {
-    TextMate.system("qlmanage -p '" + actpath + "'", function(task) {})
+	if (current_ql_command)
+		current_ql_command.cancel();
+	else
+    	current_ql_command = TextMate.system("qlmanage -p '" + actpath + "'", function(task) { current_ql_command = null;})
 }
 function myClick(path) {
     wkey = event.keyCode;
