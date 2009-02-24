@@ -161,7 +161,7 @@ function getItemTopOffset(item) {
 	return top;
 }
 function scrollToItem(item) {
-	var itemPos = getItemTopOffset(item.parentNode);
+	var itemPos = getItemTopOffset(item.parentNode.parentNode);
 	var headHeight = document.getElementById('head').offsetHeight;
 	if (itemPos &lt; document.body.scrollTop + headHeight) {
 		document.body.scrollTop = itemPos - headHeight - 2;
