@@ -13,9 +13,12 @@ cat &lt;&lt;-HTML
 	&lt;style type="text/css"&gt; 
   .file {
     padding: 10px;
-	border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
-  #result{ margin-top: 1.5em; border-top: 1px solid #ddd; }
+  #result{ 
+    margin-top: 3em;
+    border-top: 1px solid #ddd;
+  }
   .mylink {
     padding-left: 1.25em;
     display: block;
