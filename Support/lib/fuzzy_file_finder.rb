@@ -53,7 +53,7 @@ class FuzzyFileFinder
   class CharacterRun < Struct.new(:string, :inside) #:nodoc:
     def to_s
       if inside
-        "￰#{string}￱"
+        "(#{string})"
       else
         string
       end
@@ -170,7 +170,7 @@ class FuzzyFileFinder
   #   the file matches the given pattern. A score of 1 means the
   #   pattern matches the file exactly.
   def search(pattern, &block)
-    # pattern.gsub!(" ", "")
+    pattern.gsub!(" ", "")
     path_parts = pattern.split("/")
     path_parts.push "" if pattern[-1,1] == "/"
 
@@ -257,6 +257,7 @@ class FuzzyFileFinder
     def build_match_result(match, inside_segments)
       runs = []
       inside_chars = total_chars = 0
+      is_word_prefixes = inside_segments == 1
       match.captures.each_with_index do |capture, index|
         if capture.length > 0
           # odd-numbered captures are matches inside the pattern.
@@ -270,6 +271,12 @@ class FuzzyFileFinder
             runs.last.string << capture
           else
             runs << CharacterRun.new(capture, inside)
+          end
+
+          if (!inside) && is_word_prefixes && index != match.captures.length - 1
+            if capture.match(/[A-Za-z]$/i) #if this inbetween item finishes with a letter, the next is not an initial letter
+              is_word_prefixes = false
+            end
           end
         end
       end
@@ -286,7 +293,7 @@ class FuzzyFileFinder
 
       score = run_ratio * char_ratio
 
-      return { :score => score, :result => runs.join }
+      return { :score => score, :result => runs.join, :is_word_start_match => is_word_prefixes }
     end
 
     # Match the given path against the regex, caching the result in +path_matches+.
@@ -318,6 +325,7 @@ class FuzzyFileFinder
         full_match_result = path_match[:result].empty? ? match_result[:result] : File.join(path_match[:result], match_result[:result])
         shortened_path = path_match[:result].gsub(/[^\/]+/) { |m| m.index("(") ? m : m[0,1] }
         abbr = shortened_path.empty? ? match_result[:result] : File.join(shortened_path, match_result[:result])
+        plain_score = path_match[:score] * match_result[:score]
 
         result = { :path => file.path,
                    :abbr => abbr,
@@ -326,7 +334,8 @@ class FuzzyFileFinder
                    :highlighted_directory => path_match[:result],
                    :highlighted_name => match_result[:result],
                    :highlighted_path => full_match_result,
-                   :score => path_match[:score] * match_result[:score] }
+                   :score => plain_score,
+                   :smart_score => (match_result[:is_word_start_match] ? 1 : 0) + plain_score }
         yield result
       end
     end
