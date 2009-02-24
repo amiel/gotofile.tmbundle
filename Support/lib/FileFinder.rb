@@ -5,6 +5,12 @@ MAX_OUTPUT = 100
 
 require File.dirname(__FILE__) + '/fuzzy_file_finder'
 
+if ENV['TM_FUZZYFINDER_IGNORE']
+  TM_FUZZYFINDER_IGNORE = ENV['TM_FUZZYFINDER_IGNORE'].to_s.split(/,/)
+else
+  TM_FUZZYFINDER_IGNORE = nil
+end
+
 begin
   project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || File.dirname(ENV['TM_FILEPATH'])
 rescue
@@ -23,7 +29,7 @@ end
 cnt = 0
 
 begin
-  FuzzyFileFinder.new(project_path).find(search_string).sort{|b,a| a[:score] <=> b[:score] }.each do |p|  
+  FuzzyFileFinder.new(project_path, 10_000, TM_FUZZYFINDER_IGNORE).find(search_string).sort{|b,a| a[:score] <=> b[:score] }.each do |p|  
     sc = (p[:score].to_f * 100).to_i
     puts %Q{
     <div class='file'>
