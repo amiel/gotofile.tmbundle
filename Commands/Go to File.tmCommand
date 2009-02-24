@@ -198,7 +198,7 @@ function setSelection(item) {
 	}
 	current_file = item;
 	if (current_file) {
-		current_file.parentNode.parentNode.style.background = "#f5f5f5";
+		current_file.parentNode.parentNode.style.background = "#e5e5e5";
 		current_file.style.display = "none";
 		current_file.onfocus();
 		scrollToItem(current_file);
