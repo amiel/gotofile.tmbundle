@@ -15,6 +15,11 @@ To ignore certain files add a TM variable called "TM_FUZZYFINDER_IGNORE", in it 
 
 “GoToFile” makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
 
+# Official Git Repos #
+
+can be found here: http://github.com/amiel/gotofile.tmbundle
+
+
 # Usage #
 
 <button>⇧⌘K</button> invokes “GoToFile”. The root directory will be taken from `$TM_PROJECT_DIRECTORY` || `$TM_DIRECTORY` || current directory. “GoToFile” won't work on unsaved documents. There is a mouse-over event to display the entire file path.
@@ -40,21 +45,17 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 
 # ToDo #
 
-* improve the keyboard navigation
 * up to now it's only possible to close the QuickLook window via mouse
-
-# Main Bundle Maintainer #
-
-***Date: Feb 23 2009***
-
-<pre>
--  Hans-Jörg Bibiko&nbsp;&nbsp;<a href="mailto:bibiko@eva.mpg.de">bibiko@eva.mpg.de</a>
-</pre>
+* improve UI
 
 # Contributions #
 
 ***Date: Feb 23 2009***
 
 <pre>
+-  Amiel Martin&nbsp;&nbsp;<a href="mailto:amiel.martin@gmail.com">amiel.martin@gmail.com</a>
+-  Hans-Jörg Bibiko&nbsp;&nbsp;<a href="mailto:bibiko@eva.mpg.de">bibiko@eva.mpg.de</a>
+-  Eric Doughty-Papassideris&nbsp;&nbsp;github:ddlsmurf
 -  Travis Jeffery&nbsp;&nbsp;<a href="mailto:t.jeffery@utoronto.ca">t.jeffery@utoronto.ca</a>
+-  Eric O'Connell &nbsp;&nbsp;github:drd
 </pre>
