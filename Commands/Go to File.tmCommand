@@ -204,10 +204,22 @@ function changeSelect(y) {
 		setSelection(null);
 	};
 }
+
+function insertEscapedSpace() {
+	var searchBox = document.getElementById('search');
+	var query = searchBox.value;
+	var selStart = searchBox.selectionStart;
+	searchBox.value = query.substr(0, selStart) + "\\\\ " + query.substr(searchBox.selectionEnd);
+	searchBox.selectionStart = selStart + 2;
+	searchBox.selectionEnd = searchBox.selectionStart;
+}
 document.onkeydown = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
     wkey = event.keyCode;
-    if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
+	if (wkey == 32) {
+		event.stopPropagation();
+		event.preventDefault();
+	} else if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
 	  event.stopPropagation();
 	  event.preventDefault();
 	var iDiff = 1;
@@ -231,7 +243,14 @@ document.onkeyup = function keyPress(event) {
 	  event.preventDefault();
     }
     if (wkey == 27) window.close();
-    if (wkey == 32) quicklook();
+    if (wkey == 32) {
+		if (event.altKey)
+			insertEscapedSpace();
+		else
+			quicklook();
+		event.stopPropagation();
+		event.preventDefault();
+	}
     if (wkey == 13) {
         if (event.shiftKey &amp;&amp; event.altKey) insertPath();
         else if (event.shiftKey) insertRelPath();
