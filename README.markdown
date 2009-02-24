@@ -58,4 +58,5 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 -  Eric Doughty-Papassideris&nbsp;&nbsp;github:ddlsmurf
 -  Travis Jeffery&nbsp;&nbsp;<a href="mailto:t.jeffery@utoronto.ca">t.jeffery@utoronto.ca</a>
 -  Eric O'Connell &nbsp;&nbsp;github:drd
+-  Nathan Carnes&nbsp;&nbsp;github:nathancarnes
 </pre>
