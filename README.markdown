@@ -11,7 +11,7 @@ Furthermore it is not only possible to open the selected file in TextMate but al
 
 The list of found files is sorted by the score which is calculated inside of Jamis Buck's “Fuzzy File Finder” routine. The maximum number of outputted files is set to 100 (can be changed in “FileFinder.rb” line 4).
 
-To ignore certain files add a TM variable called "TM_FUZZYFINDER_IGNORE", in it put the file regexp separated by commas. For example: '\*.pyc,\*.zip,\*.gz,\*.bz,\*.tar,\*.jpg,\*.png,\*.gif,\*.avi,\*.wmv,\*.ogg,\*.mp3,\*.mov'.
+To ignore certain files add a TM variable called "TM\_FUZZYFINDER\_IGNORE", in it put the file regexp separated by commas. For example: '\*.pyc,\*.zip,\*.gz,\*.bz,\*.tar,\*.jpg,\*.png,\*.gif,\*.avi,\*.wmv,\*.ogg,\*.mp3,\*.mov'.
 
 “GoToFile” makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
 
@@ -38,6 +38,7 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>⇧ CLICK</button> or <button>⇧&#x21A9;</button>inserts the relative file path
 * <button>⇧⌥ CLICK</button> or <button>⇧⌥&#x21A9;</button>inserts the absolute file path
 * <button>SPACE</button> opens the selected file (via ⇥ or ⇧⇥) in QuickLook (Leopard only)
+* <button>⌥ SPACE</button> adds an (escaped) space character in the search query
 * <button>⇥</button> sets the focus to next element
 * <button>⇧⇥</button> sets the focus to previous element
 * <button>^F</button> sets the focus to the input field
@@ -45,7 +46,6 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 
 # ToDo #
 
-* up to now it's only possible to close the QuickLook window via mouse
 * improve UI
 
 # Contributions #
