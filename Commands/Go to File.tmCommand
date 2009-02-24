@@ -55,7 +55,7 @@ cat &lt;&lt;-HTML
     color: #222;
     background-color: #ffc;
   }
-  .head {
+  #head {
     font-size: 10pt;
     color: #333;
     background: #eeeeee;
@@ -68,7 +68,7 @@ cat &lt;&lt;-HTML
     padding: .5em;
 	border-bottom: 1px solid #ddd;
   }
-  .head input{ width: 50%; }
+  #head input{ width: 50%; }
 
 	&lt;/style&gt; 
 	&lt;script&gt;
@@ -152,6 +152,23 @@ function myClick(path) {
     else if (event.altKey) openFile();
     else goto();
 }
+
+function getItemTopOffset(item) {
+	var parent = item;
+	var top = item.offsetTop;
+	while(parent = parent.offsetParent)
+		top += parent.offsetTop;
+	return top;
+}
+function scrollToItem(item) {
+	var itemPos = getItemTopOffset(item.parentNode);
+	var headHeight = document.getElementById('head').offsetHeight;
+	if (itemPos &lt; document.body.scrollTop + headHeight) {
+		document.body.scrollTop = itemPos - headHeight - 2;
+	} else if ((itemPos + item.parentNode.offsetHeight &gt;= document.body.clientHeight + document.body.scrollTop)) {
+		document.body.scrollTop = itemPos;
+	}
+}
 function setSelection(item) {
 	if (item == current_file) return;
 	if (current_file) {
@@ -164,6 +181,7 @@ function setSelection(item) {
 		current_file.parentNode.parentNode.style.background = "#f5f5f5";
 		current_file.style.display = "none";
 		current_file.onfocus();
+		scrollToItem(current_file);
 	}
 }
 function changeSelect(y) {
@@ -226,7 +244,7 @@ document.onkeyup = function keyPress(event) {
 	&lt;/script&gt;
 	&lt;/head&gt;
 &lt;body onload='document.getElementById("search").focus();startSearchTimed();'&gt;
-&lt;div class='head'&gt;
+&lt;div id='head'&gt;
 &lt;input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onfocus='setFile("")' onsearch='startSearch(this.value);'&gt;
 &lt;/div&gt;
 &lt;div id='result'&gt;
