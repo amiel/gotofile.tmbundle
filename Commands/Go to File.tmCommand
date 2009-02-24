@@ -12,48 +12,52 @@ cat &lt;&lt;-HTML
 	&lt;title&gt;Go to File&lt;/title&gt;
 	&lt;style type="text/css"&gt; 
   .file {
-    margin: 0.25em 0;
+    padding: 10px;
+	border-bottom: 1px solid #ddd;
   }
+  #result{ margin-top: 1.5em; border-top: 1px solid #ddd; }
   .mylink {
     padding-left: 1.25em;
     display: block;
-    width: 85%;
+    width: 75%;
     overflow: hidden;
-    color: #0000fa;
+    color: #4183C4;
     font-size: 9pt;
     cursor: pointer;
     white-space:nowrap;
   }
   .file .score_wrapper {
     float: left;
-    width: 10%;
-    height: 1em;
+    width: 20%;
+    height: 8px;
     border: 1px solid #ccc;
+    padding: 1px;
+    margin-top: 2px;
+    background: #fff;
   }
   .in {
     border: 0px;
     font-size: 8pt;
     color: #ffffff;
-    height: 1em;
+    height: 6px;
   }
   .file .in_wrapper {
     float: left;
     width: 5px;
-    height: 1em;
-    border: 0px solid #ccc;
+    height: 6px;
   }
   .file .score {
-    background-color: #494949;
+    background-color: #666;
     width: 1%;
     height: 100%;
   }
   .highlight {
-    color: #df0000;
-    background-color: #ffffff;
+    color: #222;
+    background-color: #ffc;
   }
   .head {
     font-size: 10pt;
-    color: #000000;
+    color: #333;
     background: #eeeeee;
     z-index: 106;
     text-align: center;
@@ -61,8 +65,11 @@ cat &lt;&lt;-HTML
     top: 0px;
     left: 0px;
     width: 100%;
-    padding: 1mm;
+    padding: .5em;
+	border-bottom: 1px solid #ddd;
   }
+  .head input{ width: 50%; }
+
 	&lt;/style&gt; 
 	&lt;script&gt;
 var myCommand = null;
@@ -154,7 +161,7 @@ function setSelection(item) {
 	}
 	current_file = item;
 	if (current_file) {
-		current_file.parentNode.parentNode.style.background = "lightblue";
+		current_file.parentNode.parentNode.style.background = "#f5f5f5";
 		current_file.style.display = "none";
 		current_file.onfocus();
 	}
@@ -222,7 +229,6 @@ document.onkeyup = function keyPress(event) {
 &lt;div class='head'&gt;
 &lt;input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onfocus='setFile("")' onsearch='startSearch(this.value);'&gt;
 &lt;/div&gt;
-&lt;p&gt; &lt;/p&gt;
 &lt;div id='result'&gt;
 
 &lt;/div&gt;
