@@ -84,6 +84,7 @@ var term;
 var ft;
 var current_file=null;
 var current_ql_command=null;
+var current_ql_command_id=0;
 function startSearch(t) {
     term = t;
     window.clearTimeout(aTimer);
@@ -142,12 +143,26 @@ function openFile() {
         myCommand = TextMate.system("open '" + actpath + "'", function(task) {});
     }
 }
-function quicklook() {
+function cancel_quicklook() {
+	var closed_quicklook = current_ql_command != null;
 	if (current_ql_command)
 		current_ql_command.cancel();
-	else
-    	current_ql_command = TextMate.system("qlmanage -p '" + actpath + "'", function(task) { current_ql_command = null;})
+	current_ql_command = null;
+	return closed_quicklook;
 }
+function quicklook() {
+	var display_id = current_ql_command_id + 1;
+	if (current_ql_command)
+		cancel_quicklook();
+	else {
+		current_ql_command_id = display_id;
+		current_ql_command = TextMate.system("qlmanage -p '" + actpath + "'", function(task) {
+			if (display_id == current_ql_command_id)
+				current_ql_command = null;
+		})
+	}
+}
+
 function myClick(path) {
     wkey = event.keyCode;
     actpath = path;
@@ -175,6 +190,7 @@ function scrollToItem(item) {
 }
 function setSelection(item) {
 	if (item == current_file) return;
+	var bReopenQuickLook = cancel_quicklook();
 	if (current_file) {
 		current_file.parentNode.parentNode.style.background = "";
 		current_file.style.display = "";
@@ -186,6 +202,8 @@ function setSelection(item) {
 		current_file.style.display = "none";
 		current_file.onfocus();
 		scrollToItem(current_file);
+		if (bReopenQuickLook)
+			quicklook();
 	}
 }
 function changeSelect(y) {
