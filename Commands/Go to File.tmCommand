@@ -234,7 +234,7 @@ function insertEscapedSpace() {
 	searchBox.value = query.substr(0, selStart) + "\\\\ " + query.substr(searchBox.selectionEnd);
 	searchBox.selectionStart = selStart + 2;
 	searchBox.selectionEnd = searchBox.selectionStart;
-	startSearchTimed();
+	startSearch(searchBox.value);
 }
 document.onkeydown = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
