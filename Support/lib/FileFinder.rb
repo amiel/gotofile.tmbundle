@@ -37,7 +37,7 @@ begin
         <div class='score' style='width: #{sc}%;'></div>
       </div>
       <div class='in_wrapper'>
-        <input class='in' type='text' value=' ➲ ' size='3' readonly onfocus='setFile("#{p[:path]}")'>
+        <input class='in' type='text' value=' ➲ ' size='3' readonly disabled onfocus='setFile("#{p[:path]}")'>
       </div>
       <div>
         <span class='mylink' title='#{p[:path].gsub(/^#{ENV['HOME']}/, '~')}' onclick='myClick("#{p[:path]}")'>
