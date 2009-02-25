@@ -1,6 +1,6 @@
 # Outline #
 
-“GoToFile” imitates TextMate’s “Go to File…” ⌘T functionality [see here](http://manual.macromates.com/en/working_with_multiple_files#moving_between_files_with_grace). In addition it is possible to narrow down the list of files by considering (parts of) the file path. 
+“GoToFile” imitates TextMate’s “Go to File…” ⌘T functionality [see here](http://manual.macromates.com/en/working_with_multiple_files#moving_between_files_with_grace). In addition it is possible to narrow down the list of files by considering (parts of) the file path using '/' as a delimiter. 
 
 Furthermore it is not only possible to open the selected file in TextMate but also to:
 
@@ -13,11 +13,11 @@ The list of found files is sorted by the score which is calculated inside of Jam
 
 To ignore certain files add a TM variable called "TM\_FUZZYFINDER\_IGNORE", in it put the file regexp separated by commas. For example: '\*.pyc,\*.zip,\*.gz,\*.bz,\*.tar,\*.jpg,\*.png,\*.gif,\*.avi,\*.wmv,\*.ogg,\*.mp3,\*.mov'.
 
-“GoToFile” makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
+This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
 
 # Official Git Repos #
 
-can be found here: http://github.com/amiel/gotofile.tmbundle
+Can be found here: http://github.com/amiel/gotofile.tmbundle
 
 
 # Usage #
@@ -44,7 +44,7 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>^F</button> sets the focus to the input field
 * <button>⎋</button> or <button>⌘W</button> closes the “GoToFile” window
 
-# ToDo #
+# ToDo / wish list #
 
 * improve UI
 

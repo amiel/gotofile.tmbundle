@@ -7,7 +7,7 @@
 	<key>contactName</key>
 	<string>Amiel Martin</string>
 	<key>description</key>
-	<string>Imitates TextMate’s “Go to File” ⌘T functionality and includes the chance to narrow down the list of files by certain folders. Furthermore one can open the selected file with the default application, insert the absolute/relative path, and open the file in QuickLook. This GUI makes usage of &lt;a href="http://github.com/jamis/fuzzy_file_finder/tree/master"&gt;Jamis Buck’s fuzzy file finder&lt;/a&gt; and code fragments from &lt;a href="http://github.com/amiel/fuzzyfilefinder.tmbundle"&gt; Amiel Martin’s fuzzyfilefinder&lt;/a&gt;.</string>
+	<string>Imitates TextMate’s “Go to File” ⌘T functionality and includes the chance to narrow down the list of files by certain folders using '/' as a delimiter. Furthermore one can open the selected file with the default application, insert the absolute/relative path, and open the file in QuickLook. This GUI makes usage of &lt;a href="http://github.com/jamis/fuzzy_file_finder/tree/master"&gt;Jamis Buck’s fuzzy file finder&lt;/a&gt; and code fragments from &lt;a href="http://github.com/amiel/gotofile.tmbundle/tree/amiels_original"&gt; the original fuzzyfilefinder bundle&lt;/a&gt;.</string>
 	<key>mainMenu</key>
 	<dict>
 		<key>items</key>
