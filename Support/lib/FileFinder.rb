@@ -31,7 +31,7 @@ cnt = 0
 begin
   FuzzyFileFinder.new(project_path, 10_000, TM_FUZZYFINDER_IGNORE).find(search_string).sort{|b,a| a[:smart_score] <=> b[:smart_score] }.each do |p|
     sc = (p[:score].to_f * 100).to_i
-    puts %Q{
+    puts <<-HTML
     <div class='file'>
       <div  title='#{sc}%' class='score_wrapper'>
         <div class='score' style='width: #{sc}%;'></div>
@@ -45,7 +45,7 @@ begin
         </span>
       </div>
     </div>
-    }
+    HTML
     cnt = cnt + 1
     if cnt > MAX_OUTPUT
       puts "<i><small>… more than #{MAX_OUTPUT} files found.</small></i>"

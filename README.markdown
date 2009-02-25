@@ -15,10 +15,9 @@ To ignore certain files add a TM variable called "TM\_FUZZYFINDER\_IGNORE", in i
 
 This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
 
-# Official Git Repos #
+# Installation #
 
-Can be found here: http://github.com/amiel/gotofile.tmbundle
-
+GoToFile can now be found on GetBundles.
 
 # Usage #
 
@@ -44,13 +43,19 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>^F</button> sets the focus to the input field
 * <button>⎋</button> or <button>⌘W</button> closes the “GoToFile” window
 
+# Official Git Repos #
+
+Can be found here: http://github.com/amiel/gotofile.tmbundle
+
 # ToDo / wish list #
 
-* improve UI
+* window should close when a file is opened
+* move css / javascript to separate files
+* clean up javascript (incorporate ["sizzle"](http://sizzlejs.com/))
 
 # Contributions #
 
-***Date: Feb 23 2009***
+***Date: Feb 25 2009***
 
 <pre>
 -  Amiel Martin&nbsp;&nbsp;<a href="mailto:amiel.martin@gmail.com">amiel.martin@gmail.com</a>
