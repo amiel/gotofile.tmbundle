@@ -51,7 +51,9 @@ Can be found here: http://github.com/amiel/gotofile.tmbundle
 
 * window should close when a file is opened
 * move css / javascript to separate files
-* clean up javascript (incorporate ["sizzle"](http://sizzlejs.com/))
+* clean up javascript (incorporate [sizzle](http://sizzlejs.com/))
+
+***also check out the todo list on the [github wiki](http://wiki.github.com/amiel/gotofile.tmbundle/todo)***
 
 # Contributions #
 
