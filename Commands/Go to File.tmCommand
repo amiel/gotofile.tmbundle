@@ -69,9 +69,9 @@ cat &lt;&lt;-HTML
     left: 0px;
     width: 100%;
     padding: .5em;
-	border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
-  #head input{ width: 50%; }
+  #head input{ width: 50%; } 
 
 	&lt;/style&gt; 
 	&lt;script&gt;
@@ -97,7 +97,7 @@ function startSearchTimed() {
     TextMate.isBusy = true;
     outStr = "";
     document.getElementById("result").innerHTML = "";
-	setSelection(null);
+    setSelection(null);
     var cmd = "/usr/bin/ruby '$TM_BUNDLE_SUPPORT/lib/FileFinder.rb' '" + term + "'";
     myCommand = TextMate.system(cmd,
     function(task) {});
@@ -197,7 +197,6 @@ function setSelection(item) {
 	if (current_file) {
 		current_file.parentNode.parentNode.style.background = "";
 		current_file.style.display = "";
-		setFile('');
 	}
 	current_file = item;
 	if (current_file) {
@@ -268,7 +267,6 @@ document.onkeyup = function keyPress(event) {
 	  event.stopPropagation();
 	  event.preventDefault();
     }
-    if (wkey == 27) window.close();
     if (wkey == 32) {
 		if (event.altKey)
 			insertEscapedSpace();
@@ -285,12 +283,17 @@ document.onkeyup = function keyPress(event) {
 	  event.stopPropagation();
 	  event.preventDefault();
     }
+    if (wkey == 27) {
+      document.getElementById('search').value = "";
+      event.stopPropagation();
+      event.preventDefault();
+    }
 }
 	&lt;/script&gt;
 	&lt;/head&gt;
 &lt;body onload='document.getElementById("search").focus();startSearchTimed();'&gt;
 &lt;div id='head'&gt;
-&lt;input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onfocus='setFile("")' onsearch='startSearch(this.value);'&gt;
+&lt;input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onsearch='startSearch(this.value);'&gt;
 &lt;/div&gt;
 &lt;div id='result'&gt;
 
