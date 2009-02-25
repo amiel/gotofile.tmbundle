@@ -78,7 +78,7 @@ cat &lt;&lt;-HTML
 var myCommand = null;
 var actpath = "";
 var oldterm;
-var fpath = "$(readlink -f `dirname '$TM_FILEPATH'`)" + "/";
+var fpath = "$TM_DIRECTORY" + "/";
 var dpath = "${TM_PROJECT_DIRECTORY:-${TM_DIRECTORY:-`dirname '$TM_FILEPATH'`}}" + "/";
 var rpath = fpath.replace(dpath,'');
 outStr = "";
