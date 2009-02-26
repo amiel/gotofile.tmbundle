@@ -1,0 +1,68 @@
+.file {
+padding: 10px;
+border-bottom: 1px solid #ddd;
+}
+.file .score_wrapper {
+float: left;
+width: 20%;
+height: 8px;
+border: 1px solid #ccc;
+padding: 1px;
+margin-top: 2px;
+background: #fff;
+}
+.file .in_wrapper {
+float: left;
+width: 5px;
+height: 6px;
+}
+.file .score {
+background-color: #666;
+width: 1%;
+height: 100%;
+}
+
+.in {
+border: 0px;
+font-size: 8pt;
+color: #ffffff;
+height: 6px;
+}
+
+.highlight {
+color: #222;
+background-color: #ffc;
+}
+
+#head {
+font-size: 10pt;
+color: #333;
+background: #eeeeee;
+z-index: 106;
+text-align: center;
+position: fixed;
+top: 0px;
+left: 0px;
+width: 100%;
+padding: .5em;
+border-bottom: 1px solid #ddd;
+}
+#head input {
+width: 50%;
+}
+
+#result {
+margin-top: 3em;
+border-top: 1px solid #ddd;
+}
+
+.mylink {
+padding-left: 1.25em;
+display: block;
+width: 75%;
+overflow: hidden;
+color: #4183C4;
+font-size: 9pt;
+cursor: pointer;
+white-space: nowrap;
+}
