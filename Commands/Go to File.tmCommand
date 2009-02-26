@@ -241,7 +241,7 @@ function insertEscapedSpace() {
 document.onkeydown = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
     wkey = event.keyCode;
-	if (wkey == 32) {
+	if (wkey == 32 || wkey == 27) {
 		event.stopPropagation();
 		event.preventDefault();
 	} else if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
@@ -267,6 +267,14 @@ document.onkeyup = function keyPress(event) {
 	  event.stopPropagation();
 	  event.preventDefault();
     }
+    if (wkey == 27) {
+        if (document.getElementById('search').value == "")
+                window.close();
+        else
+                document.getElementById('search').value = "";
+        event.stopPropagation();
+        event.preventDefault();
+    }
     if (wkey == 32) {
 		if (event.altKey)
 			insertEscapedSpace();
@@ -282,11 +290,6 @@ document.onkeyup = function keyPress(event) {
         else goto();
 	  event.stopPropagation();
 	  event.preventDefault();
-    }
-    if (wkey == 27) {
-      document.getElementById('search').value = "";
-      event.stopPropagation();
-      event.preventDefault();
     }
 }
 	&lt;/script&gt;
