@@ -40,7 +40,7 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>⇧⌥ CLICK</button> or <button>⇧⌥&#x21A9;</button> inserts the absolute file path
 * <button>SPACE</button> toggles the QuickLook mode (Leopard only)
 * <button>⌥ SPACE</button> adds an (escaped) space character in the search query
-* <button>↑</button> and <button>↓</button> navigates through the list of files
+* <button>↑</button> and <button>↓</button> resp. <button>⇥</button> and <button>⇧⇥</button> navigates through the list of files
 * <button>^F</button> sets the focus to the input field
 * <button>⌘W</button> closes the “GoToFile” window
 
