@@ -11,6 +11,13 @@ else
   TM_FUZZYFINDER_IGNORE = nil
 end
 
+if ENV['TM_FUZZYFINDER_CEILING']
+  TM_FUZZYFINDER_CEILING = ENV['TM_FUZZYFINDER_CEILING'].to_i
+else
+  TM_FUZZYFINDER_CEILING = 10000
+end
+
+
 begin
   project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || File.dirname(ENV['TM_FILEPATH'])
 rescue
@@ -29,7 +36,7 @@ end
 cnt = 0
 
 begin
-  FuzzyFileFinder.new(project_path, 10_000, TM_FUZZYFINDER_IGNORE).find(search_string).sort{|b,a| a[:smart_score] <=> b[:smart_score] }.each do |p|
+  FuzzyFileFinder.new(project_path, TM_FUZZYFINDER_CEILING, TM_FUZZYFINDER_IGNORE).find(search_string).sort{|b,a| a[:smart_score] <=> b[:smart_score] }.each do |p|
     sc = (p[:score].to_f * 100).to_i
     puts <<-HTML
     <div class='file'>
