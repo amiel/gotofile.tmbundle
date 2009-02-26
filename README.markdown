@@ -28,7 +28,7 @@ This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](ht
 
 ## Input Field ##
 
-Type characters in order to narrow down the list of files. The dialogue will be updated while typing. To search only in certain folders type for instance: `s/rb` or `s/li/mm` etc.
+Type characters in order to narrow down the list of files. The dialogue will be updated while typing. To search only in certain folders type for instance: `s/rb` or `s/li/mm` etc. If the letters match word prefixes (as _mf_ does in _my\_file.txt_), the match is usually prioritised.
 
 Normally spaces are ignored. If one wants to look for a space one has to escape the space: `\␣`
 
