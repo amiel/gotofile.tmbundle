@@ -182,7 +182,7 @@ document.onkeydown = function keyPress(event) {
 	if (wkey == 32 || wkey == 27) {
 		event.stopPropagation();
 		event.preventDefault();
-	} else if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
+	} else if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34 || wkey == 9) {
 	  event.stopPropagation();
 	  event.preventDefault();
 	var iDiff = 1;
@@ -190,8 +190,9 @@ document.onkeydown = function keyPress(event) {
 		iDiff = -10;
 	else if (wkey == 34)
 		iDiff = 10;
-	else if (wkey == 38)
+	else if (wkey == 38 || (wkey == 9 &amp;&amp; event.shiftKey))
 		iDiff = -1;
+		
 	  changeSelect(iDiff);
     } else if (wkey == 13) {
 	  event.stopPropagation();
@@ -201,7 +202,7 @@ document.onkeydown = function keyPress(event) {
 document.onkeyup = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
     wkey = event.keyCode;
-    if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34) {
+    if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34 || wkey == 9) {
 	  event.stopPropagation();
 	  event.preventDefault();
     }
