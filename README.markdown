@@ -11,7 +11,9 @@ Furthermore it is not only possible to open the selected file in TextMate but al
 
 The list of found files is sorted by the score which is calculated inside of Jamis Buck's “Fuzzy File Finder” routine. The maximum number of outputted files is set to 100 (can be changed in “FileFinder.rb” line 4).
 
-To ignore certain files add a TM variable called "TM\_FUZZYFINDER\_IGNORE", in it put the file globs separated by commas. For example: '\*.pyc,\*.zip,\*.gz,\*.bz,\*.tar,\*.jpg,\*.png,\*.gif,\*.avi,\*.wmv,\*.ogg,\*.mp3,\*.mov'.
+To ignore certain files add a TextMate shell variable called `TM_FUZZYFINDER_IGNORE`, in it put the file globs separated by commas. For example: '\*.pyc,\*.zip,\*.gz,\*.bz,\*.tar,\*.jpg,\*.png,\*.gif,\*.avi,\*.wmv,\*.ogg,\*.mp3,\*.mov'.
+
+As default there is a limit of 10.000 files in the tree structure. To increase/decrease that maximum number add the TextMate shell variable `TM_FUZZYFINDER_CEILING` and set it accordingly.
 
 This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
 
@@ -49,14 +51,14 @@ Can be found here: http://github.com/amiel/gotofile.tmbundle
 # ToDo / wish list #
 
 * window should close when a file is opened
-* move css / javascript to separate files
+* move javascript to separate files
 * clean up javascript (incorporate [sizzle](http://sizzlejs.com/))
 
 ***also check out the todo list on the [github wiki](http://wiki.github.com/amiel/gotofile.tmbundle/todo)***
 
 # Contributions #
 
-***Date: Feb 25 2009***
+***Date: Feb 26 2009***
 <pre>
 -  Jamis Buck &mdash; fuzzy_file_finder library - <a href="mailto:jamis@37signals.com">jamis@37signals.com </a>
 </pre>
