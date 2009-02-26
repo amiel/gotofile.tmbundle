@@ -9,7 +9,7 @@ Furthermore it is not only possible to open the selected file in TextMate but al
 * insert the relative path from the current file (that file which had the focus while invoking “GoToFile”) to the selected one
 * insert the absolute path.
 
-The list of found files is sorted by the score which is calculated inside of Jamis Buck's “Fuzzy File Finder” routine. The maximum number of outputted files is set to 100 (can be changed in “FileFinder.rb” line 4).
+The list of found files is sorted by the score which is calculated inside of Jamis Buck's “Fuzzy File Finder” routine. If the letters typed in match word prefixes (as _mf_ does in _my\_file.txt_), the match is usually prioritised. The maximum number of outputted files is set to 100 (can be changed in “FileFinder.rb” line 4).
 
 To ignore certain files add a TextMate shell variable called `TM_FUZZYFINDER_IGNORE`, in it put the file globs separated by commas. For example: '\*.pyc,\*.zip,\*.gz,\*.bz,\*.tar,\*.jpg,\*.png,\*.gif,\*.avi,\*.wmv,\*.ogg,\*.mp3,\*.mov'.
 
@@ -19,7 +19,15 @@ This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](ht
 
 # Installation #
 
-“GoToFile” can now be found on GetBundles.
+* by using “GetBundles”
+
+* by using “git”:
+`
+cd ~/Library/Application\ Support/TextMate/Bundles/
+git clone git://github.com/amiel/gotofile.tmbundle.git GoToFile.tmbundle
+`
+
+* by downloading this [zip archive](http://github.com/amiel/gotofile.tmbundle/zipball/master), decompressing it, renaming it to “GoToFile.tmbundle”, and finally double-clicking at it
 
 # Usage #
 
