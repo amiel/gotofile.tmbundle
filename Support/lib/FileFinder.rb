@@ -38,9 +38,9 @@ if search_string.empty?
   exit
 end
 
-if search_string =~ /\\/
+if search_string =~ /\\(?! )/
   TM_FUZZYFINDER_REVERSEPATHMODE = true
-  search_string = search_string.split("\\").reverse.join("/")
+  search_string = search_string.split(/\\(?! )/).reverse.join("/")
 else
   search_string = search_string.split("/").reverse.join("/") if TM_FUZZYFINDER_REVERSEPATHMODE
 end
