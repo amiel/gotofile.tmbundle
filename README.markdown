@@ -50,7 +50,7 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>⌥ SPACE</button> adds an (escaped) space character in the search query
 * <button>↑</button> and <button>↓</button> resp. <button>⇥</button> and <button>⇧⇥</button> navigates through the list of files
 * <button>^F</button> sets the focus to the input field
-* <button>⌘W</button> closes the “GoToFile” window
+* <button>⌘W</button> or <button>ESC</button> closes the “GoToFile” window
 
 # Official Git Repos #
 
