@@ -165,7 +165,7 @@ function insertEscapedSpace() {
 	var searchBox = document.getElementById('search');
 	var query = searchBox.value;
 	var selStart = searchBox.selectionStart;
-	searchBox.value = query.substr(0, selStart) + "\\\\ " + query.substr(searchBox.selectionEnd);
+	searchBox.value = query.substr(0, selStart) + "\\ " + query.substr(searchBox.selectionEnd);
 	searchBox.selectionStart = selStart + 2;
 	searchBox.selectionEnd = searchBox.selectionStart;
 	startSearch(searchBox.value);
