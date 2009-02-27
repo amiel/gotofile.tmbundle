@@ -6,6 +6,9 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>[[ -e /tmp/TM_db.busy ]] &amp;&amp; rm - f /tmp/TM_db.busy
+if [ ${TM_FUZZYFINDER_REVERSEPATHMODE:-0} == "1" ]; then
+    TMFFREVMODE="&lt;span&gt;reverse mode&lt;/span&gt;"
+fi
 cat &lt;&lt;-HTML
 &lt;html&gt;
 	&lt;head&gt;
@@ -235,7 +238,7 @@ document.onkeyup = function keyPress(event) {
 	&lt;/head&gt;
 &lt;body onload='document.getElementById("search").focus();startSearchTimed();'&gt;
 &lt;div id='head'&gt;
-&lt;input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onsearch='startSearch(this.value);'&gt;
+$TMFFREVMODE&lt;input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onsearch='startSearch(this.value);'&gt;
 &lt;/div&gt;
 &lt;div id='result'&gt;
 

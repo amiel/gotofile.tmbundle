@@ -50,6 +50,14 @@ border-bottom: 1px solid #ddd;
 #head input {
 width: 50%;
 }
+#head span {
+font-size: 7pt;
+z-index: 107;
+text-align: center;
+position: fixed;
+top: 2px;
+left: 5px;
+}
 
 #result {
 margin-top: 3em;
