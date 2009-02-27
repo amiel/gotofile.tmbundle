@@ -50,7 +50,7 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>⌥ SPACE</button> adds an (escaped) space character in the search query
 * <button>↑</button> and <button>↓</button> resp. <button>⇥</button> and <button>⇧⇥</button> navigates through the list of files
 * <button>^F</button> sets the focus to the input field
-* <button>⌘W</button> closes the “GoToFile” window
+* <button>⌘W</button> or <button>ESC</button> closes the “GoToFile” window
 
 # Official Git Repos #
 
@@ -59,7 +59,6 @@ Can be found here: http://github.com/amiel/gotofile.tmbundle
 # ToDo / wish list #
 
 * window should close when a file is opened (maybe configurable as it seems that some people like that it stays open)
-* move javascript to separate files
 * clean up javascript (incorporate [sizzle](http://sizzlejs.com/))
 
 ***also check out the todo list on the [github wiki](http://wiki.github.com/amiel/gotofile.tmbundle/todo)***
