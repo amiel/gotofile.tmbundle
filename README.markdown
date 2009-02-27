@@ -36,7 +36,9 @@ git clone git://github.com/amiel/gotofile.tmbundle.git GoToFile.tmbundle
 
 ## Input Field ##
 
-Type characters in order to narrow down the list of files. The dialogue will be updated while typing. To search only in certain folders type for instance: `s/rb` or `s/li/mm` etc. If the letters match word prefixes (as _mf_ does in _my\_file.txt_), the match is usually prioritised.
+Type characters in order to narrow down the list of files. The dialogue will be updated while typing. To search only in certain folders type for instance: `s/rb` or `s/li/mm` etc. If the letters match word prefixes (as _mf_ does in _my\_file.txt_), the match is usually prioritized.
+
+If you would like to search for the file and then narrow down to subdirectory, you can type `rb\s` or `mm\li\s`.
 
 Normally spaces are ignored. If one wants to look for a space one has to escape the space: `\␣`
 
