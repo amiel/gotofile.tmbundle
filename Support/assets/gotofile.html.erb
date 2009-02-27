@@ -1,0 +1,24 @@
+<html>
+<head>
+	
+<title>Go to File</title>
+<link rel="stylesheet" type="text/css" href="file://<%= css_path %>">
+
+<script type="text/javascript">
+//<![CDATA[
+   <%= js_vars %>
+//]]>
+</script>
+<script src="file://<%= js_path %>" type="text/javascript"></script>
+	
+</head>
+<body onload='document.getElementById("search").focus();startSearchTimed();'>
+	<div id='head'>
+		<input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onsearch='startSearch(this.value);'>
+	</div>
+	
+	<div id='result'>
+
+	</div>
+</body>
+</html>
