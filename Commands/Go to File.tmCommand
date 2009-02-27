@@ -7,7 +7,10 @@
 	<key>command</key>
 	<string>[[ -e /tmp/TM_db.busy ]] &amp;&amp; rm - f /tmp/TM_db.busy
 if [ ${TM_FUZZYFINDER_REVERSEPATHMODE:-0} == "1" ]; then
-    TMFFREVMODE="&lt;span&gt;reverse mode&lt;/span&gt;"
+    TMFFREVMODE="&lt;span id='revmode'&gt;reverse mode&lt;/span&gt;"
+    TMFFREVMODEFLAG="1 ||"
+else
+    TMFFREVMODE="&lt;span id='revmode'&gt;&lt;/span&gt;"
 fi
 cat &lt;&lt;-HTML
 &lt;html&gt;
@@ -28,8 +31,15 @@ var ft;
 var current_file=null;
 var current_ql_command=null;
 var current_ql_command_id=0;
+function setRevMode(str) {
+    document.getElementById('revmode').innerHTML=str;
+}
 function startSearch(t) {
     term = t;
+    if($TMFFREVMODEFLAG/\\\\[^ ]/.test(term) || /\\\\$/.test(term))
+        setRevMode("reverse mode");
+    else
+        setRevMode("");
     window.clearTimeout(aTimer);
     aTimer = window.setTimeout("startSearchTimed()", 1);
 }
