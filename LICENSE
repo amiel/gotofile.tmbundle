@@ -3,4 +3,4 @@ Creative Commons Attribution-NonCommercial-ShareAlike 1.0
 license. For more information, please visit
 http://creativecommons.org/licenses/by-nc-sa/1.0/
 
-Except for Support/lib/fuzzy_file_finder.rb, which has its own licence.
+NOTE: Support/lib/fuzzy_file_finder.rb has its own licence, please see http://github.com/jamis/fuzzy_file_finder.
