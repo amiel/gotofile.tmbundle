@@ -13,62 +13,64 @@ html, body
 	background: #e5e5e5;
 	border-bottom: 1px solid #ccc;
 	height: 40px;
-	padding: 0 5px;
 	position: fixed;
 	top: 0px;
 	width: 100%;
 	z-index: 5;
 }
 
-#head input
+#head input#search
 {
-	margin-top: 11px;
-	width: 50%;
+	margin: 11px 5% 0 5%;
+	width: 90%;
 	-webkit-appearance: searchfield;
-	text-indent: 5px;
-	margin-left: 20%;
-}
-
-#head span {
-font-size: 7pt;
-z-index: 107;
-text-align: center;
-position: absolute;
-top: 2px;
-left: 5px;
-display: block;
-background: red;
-height: 500px;width: 500px;
 }
 
 /* Search Results */
-
-.file {
-padding: 4px;
-margin-left: 0;
+#result
+{
+	margin-top: 41px;
 }
 
-.file:nth-child(odd){ background: #ECF3FE; }
-.file .score_wrapper {
-float: left;
-width: 20%;
-height: 8px;
-border: 1px solid #ccc;
-padding: 1px;
-margin-top: 2px;
-background: #fff;
+.file
+{
+	padding: 4px;
 }
 
-.file .in_wrapper {
-float: left;
-width: 5px;
-height: 6px;
-display: none;
+.file:nth-child(odd)
+{
+	background: #ECF3FE; 
 }
-.file .score {
-background-color: #666;
-width: 1%;
-height: 100%;
+
+.file:hover
+{
+	background: #ECF3FE;
+}
+
+.file .score_wrapper
+{
+	background: #fff;
+	border: 1px solid #999;	
+	float: left;
+	height: 8px;
+	margin-top: 2px;	
+	padding: 1px;		
+	width: 15%;
+	-webkit-border-radius: 2px;
+}
+
+.file .in_wrapper
+{
+	display: none;
+	height: 6px;
+}
+
+.file .score
+{
+	background-color: #1553AA;
+	height: 100%;
+	width: 1%;
+	-webkit-border-radius: 2px;	
 }
 
 .in {
@@ -79,14 +81,11 @@ height: 6px;
 }
 
 .highlight {
-color: #222;
-background-color: #ffc;
+color: #fff;
+background-color: #3875d7;
 }
 
-#result {
-	margin-top: 41px;
-	width: 100%;
-}
+
 
 .mylink {
 padding-left: 1.25em;
