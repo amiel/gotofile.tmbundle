@@ -5,29 +5,15 @@ MAX_OUTPUT = 100
 
 require File.dirname(__FILE__) + '/fuzzy_file_finder'
 
-if ENV['TM_FUZZYFINDER_REVERSEPATHMODE']
-  TM_FUZZYFINDER_REVERSEPATHMODE = (ENV['TM_FUZZYFINDER_REVERSEPATHMODE'].to_i == 0) ? false : true
-else
-  TM_FUZZYFINDER_REVERSEPATHMODE = false
-end
-
-if ENV['TM_FUZZYFINDER_IGNORE']
-  TM_FUZZYFINDER_IGNORE = ENV['TM_FUZZYFINDER_IGNORE'].to_s.split(/,/)
-else
-  TM_FUZZYFINDER_IGNORE = nil
-end
-
-if ENV['TM_FUZZYFINDER_CEILING']
-  TM_FUZZYFINDER_CEILING = ENV['TM_FUZZYFINDER_CEILING'].to_i
-else
-  TM_FUZZYFINDER_CEILING = 10000
-end
+TM_FUZZYFINDER_REVERSEPATHMODE = (ENV['TM_FUZZYFINDER_REVERSEPATHMODE'] and ENV['TM_FUZZYFINDER_REVERSEPATHMODE'].to_i != 0) ? true : false
+TM_FUZZYFINDER_IGNORE = ENV['TM_FUZZYFINDER_IGNORE'] ? ENV['TM_FUZZYFINDER_IGNORE'].to_s.split(/,/) : nil
+TM_FUZZYFINDER_CEILING = ENV['TM_FUZZYFINDER_CEILING'] ? ENV['TM_FUZZYFINDER_CEILING'].to_i : 10000
 
 
-begin
-  project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || File.dirname(ENV['TM_FILEPATH'])
-rescue
-  puts "<i><small>no search path given</small></i>"
+project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FILEPATH'] && File.dirname(ENV['TM_FILEPATH'])
+
+if project_path.nil?
+  puts '<p class="notice">no search path given</p>'
   exit
 end
 
@@ -71,7 +57,7 @@ begin
     HTML
     cnt = cnt + 1
     if cnt > MAX_OUTPUT
-      puts "<i><small>… more than #{MAX_OUTPUT} files found.</small></i>"
+      puts %(<p class="notice">… more than #{MAX_OUTPUT} files found.</p>)
       break
     end
   end

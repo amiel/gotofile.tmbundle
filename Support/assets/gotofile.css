@@ -75,6 +75,6 @@ cursor: pointer;
 white-space: nowrap;
 }
 
-.selected {
-	background: #e5e5e5;
-}
+.selected {	background: #e5e5e5; }
+
+.notice { font-style: italic; font-size: small; }
