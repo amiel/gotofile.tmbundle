@@ -11,22 +11,11 @@ padding: 1px;
 margin-top: 2px;
 background: #fff;
 }
-.file .in_wrapper {
-float: left;
-width: 5px;
-height: 6px;
-}
+
 .file .score {
 background-color: #666;
 width: 1%;
 height: 100%;
-}
-
-.in {
-border: 0px;
-font-size: 8pt;
-color: #ffffff;
-height: 6px;
 }
 
 .highlight {

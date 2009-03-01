@@ -121,7 +121,7 @@ function getItemTopOffset(item) {
 	return top;
 }
 function scrollToItem(item) {
-	var itemPos = getItemTopOffset(item.parentNode.parentNode);
+	var itemPos = getItemTopOffset(item.parentNode);
 	var headHeight = document.getElementById('head').offsetHeight;
 	if (itemPos < document.body.scrollTop + headHeight) {
 		document.body.scrollTop = itemPos - headHeight - 2;
@@ -158,19 +158,18 @@ function setSelection(item) {
 	if (item == current_file) return;
 	var bReopenQuickLook = cancel_quicklook();
 	if (current_file) {
-		removeClass(current_file.parentNode.parentNode, "selected");
-		current_file.style.display = "";
+		removeClass(current_file.parentNode, "selected");
 	}
 	current_file = item;
 	if (current_file) {		
-		addClass(current_file.parentNode.parentNode, "selected");
-		current_file.style.display = "none";
-		current_file.onfocus();
+		addClass(current_file.parentNode, "selected");
+		setFile(current_file.value);
 		scrollToItem(current_file);
 		if (bReopenQuickLook)
 			quicklook();
 	}
 }
+
 function changeSelect(y) {
 	var oItems = document.getElementById('result').getElementsByTagName("input");
 	var iCurIndex = -1;

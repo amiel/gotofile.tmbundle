@@ -46,9 +46,7 @@ begin
       <div title='#{sc}%' class='score_wrapper'>
         <div class='score' style='width: #{sc}%;'></div>
       </div>
-      <div class='in_wrapper'>
-        <input class='in' type='text' size='1' readonly disabled onfocus='setFile("#{p[:path]}")'>
-      </div>
+      <input type='hidden' name="in_path" value="#{p[:path]}">
       <div>
         <span class='mylink' title='#{p[:path].gsub(/^#{ENV['HOME']}/, '~')}' onclick='myClick("#{p[:path]}")'>
     #{hpath.gsub('￰','<span class=\'highlight\'>').gsub('￱','</span>')}
