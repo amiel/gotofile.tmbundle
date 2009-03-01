@@ -44,12 +44,11 @@ template_path = asset_path + '/_file.html.erb'
 template = ERB.new(File.read(template_path))
 
 begin
-  FuzzyFileFinder.new(project_path, TM_FUZZYFINDER_CEILING, TM_FUZZYFINDER_IGNORE).find(search_string).sort{|b,a| a[:smart_score] <=> b[:smart_score] }.each do |p|
-    sc = (p[:smart_score].to_f * 100).to_i
+  FuzzyFileFinder.new(project_path, TM_FUZZYFINDER_CEILING, TM_FUZZYFINDER_IGNORE, FuzzyFileFinder::HtmlCharacterRun).find(search_string).sort{|b,a| a[:score] <=> b[:score] }.each do |p|
+    sc = (p[:score].to_f * 100).to_i
     sc = sc > 100 ? 100 : sc
     hpath = p[:highlighted_path]
     hpath = hpath.split("/").reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
-    hpath = hpath.gsub('￰','<span class=\'highlight\'>').gsub('￱','</span>')
     puts template.result(binding)
     
     cnt = cnt + 1
