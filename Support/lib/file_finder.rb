@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby -wKU
 
+require 'erb'
+
 # max number of found files after sorting by score
 MAX_OUTPUT = 100
 
@@ -32,28 +34,24 @@ else
   search_string = search_string.split("/").reverse.join("/") if TM_FUZZYFINDER_REVERSEPATHMODE
 end
 
+asset_path = ENV['TM_BUNDLE_SUPPORT'] + '/assets'
+
 
 # counter for outputted files
 cnt = 0
 
+template_path = asset_path + '/_file.html.erb'
+template = ERB.new(File.read(template_path))
+
 begin
   FuzzyFileFinder.new(project_path, TM_FUZZYFINDER_CEILING, TM_FUZZYFINDER_IGNORE).find(search_string).sort{|b,a| a[:smart_score] <=> b[:smart_score] }.each do |p|
     sc = (p[:smart_score].to_f * 100).to_i
+    sc = sc > 100 ? 100 : sc
     hpath = p[:highlighted_path]
     hpath = hpath.split("/").reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
-    puts <<-HTML
-    <div class='file'>
-      <div title='#{sc}%' class='score_wrapper'>
-        <div class='score' style='width: #{sc}%;'></div>
-      </div>
-      <input type='hidden' name="in_path" value="#{p[:path]}">
-      <div>
-        <span class='mylink' title='#{p[:path].gsub(/^#{ENV['HOME']}/, '~')}' onclick='myClick("#{p[:path]}")'>
-    #{hpath.gsub('￰','<span class=\'highlight\'>').gsub('￱','</span>')}
-        </span>
-      </div>
-    </div>
-    HTML
+    hpath = hpath.gsub('￰','<span class=\'highlight\'>').gsub('￱','</span>')
+    puts template.result(binding)
+    
     cnt = cnt + 1
     if cnt > MAX_OUTPUT
       puts %(<p class="notice">… more than #{MAX_OUTPUT} files found.</p>)

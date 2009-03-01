@@ -34,7 +34,7 @@ function startSearchTimed() {
     outStr = "";
     document.getElementById("result").innerHTML = "";
     setSelection(null);
-    var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/FileFinder.rb' '" + term + "'";
+    var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + term + "'";
     myCommand = TextMate.system(cmd,
     function(task) {});
     myCommand.onreadoutput = output;
