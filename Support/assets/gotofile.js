@@ -53,8 +53,7 @@ function setFile(path) {
 
 function gotofile() {
     if (actpath != "") {
-        myCommand = TextMate.system("mate '" + actpath + "'",
-        function(task) {});
+        myCommand = TextMate.system("mate '" + actpath + "'", function(task) {});
     }
 }
 function insertPath() {

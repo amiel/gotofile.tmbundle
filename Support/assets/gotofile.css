@@ -47,9 +47,7 @@ width: 100%;
 padding: .5em;
 border-bottom: 1px solid #ddd;
 }
-#head input {
-width: 50%;
-}
+#head input { width: 50%; }
 #head span {
 font-size: 7pt;
 z-index: 107;
