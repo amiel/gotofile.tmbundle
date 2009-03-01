@@ -34,7 +34,7 @@ function startSearchTimed() {
     outStr = "";
     document.getElementById("result").innerHTML = "";
     setSelection(null);
-    var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/FileFinder.rb' '" + term + "'";
+    var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + term + "'";
     myCommand = TextMate.system(cmd,
     function(task) {});
     myCommand.onreadoutput = output;
@@ -44,15 +44,16 @@ function output(str) {
     outStr += str;
     document.getElementById("result").innerHTML = outStr;
 	if (current_file == null)
-		changeSelect(1)
+		changeSelect(1);
 }
+
 function setFile(path) {
     actpath = path;
 }
-function goto() {
+
+function gotofile() {
     if (actpath != "") {
-        myCommand = TextMate.system("mate '" + actpath + "'",
-        function(task) {});
+        myCommand = TextMate.system("mate '" + actpath + "'", function(task) {});
     }
 }
 function insertPath() {
@@ -99,7 +100,7 @@ function quicklook() {
 		current_ql_command = TextMate.system("qlmanage -p '" + actpath + "'", function(task) {
 			if (display_id == current_ql_command_id)
 				current_ql_command = null;
-		})
+		});
 	}
 }
 
@@ -109,7 +110,7 @@ function myClick(path) {
     if (event.shiftKey && event.altKey) insertPath();
     else if (event.shiftKey) insertRelPath();
     else if (event.altKey) openFile();
-    else goto();
+    else gotofile();
 }
 
 function getItemTopOffset(item) {
@@ -120,7 +121,7 @@ function getItemTopOffset(item) {
 	return top;
 }
 function scrollToItem(item) {
-	var itemPos = getItemTopOffset(item.parentNode.parentNode);
+	var itemPos = getItemTopOffset(item.parentNode);
 	var headHeight = document.getElementById('head').offsetHeight;
 	if (itemPos < document.body.scrollTop + headHeight) {
 		document.body.scrollTop = itemPos - headHeight - 2;
@@ -128,23 +129,47 @@ function scrollToItem(item) {
 		document.body.scrollTop = itemPos;
 	}
 }
+
+/* stolen from jquery */
+function grep( elems, callback, inv ) {
+	var ret = [];
+
+	// Go through the array, only saving the items
+	// that pass the validator function
+	for ( var i = 0, length = elems.length; i < length; i++ )
+		if ( !inv != !callback( elems[ i ], i ) )
+			ret.push( elems[ i ] );
+
+	return ret;
+}
+
+function addClass(elem, className) {
+	alert(elem.className);
+	elem.className += (elem.className ? " " : "") + className;
+}
+
+function removeClass(elem, className) {
+	elem.className = grep(elem.className.split(/\s+/), function(name){
+		return name == className;
+	}, true).join(" ");
+}
+
 function setSelection(item) {
 	if (item == current_file) return;
 	var bReopenQuickLook = cancel_quicklook();
 	if (current_file) {
-		current_file.parentNode.parentNode.style.background = "";
-		current_file.style.display = "";
+		removeClass(current_file.parentNode, "selected");
 	}
 	current_file = item;
-	if (current_file) {
-		current_file.parentNode.parentNode.style.background = "#e5e5e5";
-		current_file.style.display = "none";
-		current_file.onfocus();
+	if (current_file) {		
+		addClass(current_file.parentNode, "selected");
+		setFile(current_file.value);
 		scrollToItem(current_file);
 		if (bReopenQuickLook)
 			quicklook();
 	}
 }
+
 function changeSelect(y) {
 	var oItems = document.getElementById('result').getElementsByTagName("input");
 	var iCurIndex = -1;
@@ -197,7 +222,7 @@ document.onkeydown = function keyPress(event) {
 	  event.stopPropagation();
 	  event.preventDefault();
 	}
-}
+};
 document.onkeyup = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
     wkey = event.keyCode;
@@ -225,8 +250,8 @@ document.onkeyup = function keyPress(event) {
         if (event.shiftKey && event.altKey) insertPath();
         else if (event.shiftKey) insertRelPath();
         else if (event.altKey) openFile();
-        else goto();
+        else gotofile();
 	  event.stopPropagation();
 	  event.preventDefault();
     }
-}
+};

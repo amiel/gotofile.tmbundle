@@ -86,6 +86,10 @@ background-color: #3875d7;
 }
 
 
+.fuzzyff_match {
+color: #222;
+background-color: #ffc;
+}
 
 .mylink {
 padding-left: 1.25em;
@@ -98,3 +102,6 @@ cursor: pointer;
 white-space: nowrap;
 }
 
+.selected {	background: #e5e5e5; }
+
+.notice { font-style: italic; font-size: small; }

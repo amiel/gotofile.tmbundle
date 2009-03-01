@@ -9,11 +9,12 @@ html_path = asset_path + '/gotofile.html.erb'
 css_path = asset_path.gsub(' ', '%20') + '/gotofile.css'
 js_path = asset_path.gsub(' ', '%20') + '/gotofile.js'
 
+project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FILEPATH'] && File.dirname(ENV['TM_FILEPATH'])
 
 js_vars = {
   :bundle_support => ENV['TM_BUNDLE_SUPPORT'],
   :fpath => ENV['TM_DIRECTORY'],
-  :dpath => ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || File.dirname(ENV['TM_FILEPATH']),
+  :dpath => project_path,
   :path_to_ruby => ENV['TM_RUBY'] || 'ruby',
 }.collect { |var, value| "var #{var} = '#{value}';\n" }
 

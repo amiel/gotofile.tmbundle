@@ -33,6 +33,9 @@
 # * test/(app)/(blog)_(con)troller_test.rb
 #
 # And so forth.
+
+require 'CGI'
+
 class FuzzyFileFinder
   module Version
     MAJOR = 1
@@ -53,9 +56,20 @@ class FuzzyFileFinder
   class CharacterRun < Struct.new(:string, :inside) #:nodoc:
     def to_s
       if inside
-        "￰#{string}￱"
+        "(#{string})"
       else
         string
+      end
+    end
+  end
+
+  # Just like CharacterRun except outputs HTML.
+  class HtmlCharacterRun < Struct.new(:string, :inside) #:nodoc:
+    def to_s
+      if inside
+        "<span class=\"fuzzyff_match\">#{CGI.escapeHTML(string)}</span>"
+      else
+        CGI.escapeHTML(string)
       end
     end
   end
@@ -105,11 +119,14 @@ class FuzzyFileFinder
   # The list of glob patterns to ignore.
   attr_reader :ignores
 
+  # The class used to output the highlighted text in the desired format.
+  attr_reader :highlighted_match_class
+
   # Initializes a new FuzzyFileFinder. This will scan the
   # given +directories+, using +ceiling+ as the maximum number
   # of entries to scan. If there are more than +ceiling+ entries
   # a TooManyEntries exception will be raised.
-  def initialize(directories=['.'], ceiling=10_000, ignores=nil)
+  def initialize(directories=['.'], ceiling=10_000, ignores=nil, highlighter=CharacterRun)
     directories = Array(directories)
     directories << "." if directories.empty?
 
@@ -124,6 +141,8 @@ class FuzzyFileFinder
     @ceiling = ceiling
 
     @ignores = Array(ignores)
+
+    @highlighted_match_class = highlighter
 
     rescan!
   end
@@ -270,10 +289,10 @@ class FuzzyFileFinder
           if runs.last && runs.last.inside == inside
             runs.last.string << capture
           else
-            runs << CharacterRun.new(capture, inside)
+            runs << @highlighted_match_class.new(capture, inside)
           end
 
-          if (!inside) && is_word_prefixes && index != match.captures.length - 1
+          if !inside && is_word_prefixes && index != match.captures.length - 1
             if capture.match(/[A-Za-z]$/i) #if this inbetween item finishes with a letter, the next is not an initial letter
               is_word_prefixes = false
             end
@@ -325,7 +344,7 @@ class FuzzyFileFinder
         full_match_result = path_match[:result].empty? ? match_result[:result] : File.join(path_match[:result], match_result[:result])
         shortened_path = path_match[:result].gsub(/[^\/]+/) { |m| m.index("(") ? m : m[0,1] }
         abbr = shortened_path.empty? ? match_result[:result] : File.join(shortened_path, match_result[:result])
-        plain_score = path_match[:score] * match_result[:score]
+        plain_score = (path_match[:score] * match_result[:score]) / 2.0
 
         result = { :path => file.path,
                    :abbr => abbr,
@@ -334,8 +353,7 @@ class FuzzyFileFinder
                    :highlighted_directory => path_match[:result],
                    :highlighted_name => match_result[:result],
                    :highlighted_path => full_match_result,
-                   :score => plain_score,
-                   :smart_score => (match_result[:is_word_start_match] ? 1 : 0) + plain_score }
+                   :score => (match_result[:is_word_start_match] ? 0.5 : 0) + plain_score }
         yield result
       end
     end
