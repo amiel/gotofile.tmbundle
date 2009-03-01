@@ -15,7 +15,7 @@ TM_FUZZYFINDER_CEILING = ENV['TM_FUZZYFINDER_CEILING'] ? ENV['TM_FUZZYFINDER_CEI
 project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FILEPATH'] && File.dirname(ENV['TM_FILEPATH'])
 
 if project_path.nil?
-  puts '<p class="notice">no search path given</p>'
+  puts '<p class="notice">GoToFile could not determine a base location to start searching. Please open a project or save this file.</p>'
   exit
 end
 
@@ -53,7 +53,7 @@ begin
     
     cnt = cnt + 1
     if cnt > MAX_OUTPUT
-      puts %(<p class="notice">… more than #{MAX_OUTPUT} files found.</p>)
+      puts %(<p class="notice">&hellip; more than #{MAX_OUTPUT} files found.</p>)
       break
     end
   end
