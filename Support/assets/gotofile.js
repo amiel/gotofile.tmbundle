@@ -44,12 +44,14 @@ function output(str) {
     outStr += str;
     document.getElementById("result").innerHTML = outStr;
 	if (current_file == null)
-		changeSelect(1)
+		changeSelect(1);
 }
+
 function setFile(path) {
     actpath = path;
 }
-function goto() {
+
+function gotofile() {
     if (actpath != "") {
         myCommand = TextMate.system("mate '" + actpath + "'",
         function(task) {});
@@ -99,7 +101,7 @@ function quicklook() {
 		current_ql_command = TextMate.system("qlmanage -p '" + actpath + "'", function(task) {
 			if (display_id == current_ql_command_id)
 				current_ql_command = null;
-		})
+		});
 	}
 }
 
@@ -109,7 +111,7 @@ function myClick(path) {
     if (event.shiftKey && event.altKey) insertPath();
     else if (event.shiftKey) insertRelPath();
     else if (event.altKey) openFile();
-    else goto();
+    else gotofile();
 }
 
 function getItemTopOffset(item) {
@@ -128,16 +130,41 @@ function scrollToItem(item) {
 		document.body.scrollTop = itemPos;
 	}
 }
+
+/* stolen from jquery */
+function grep( elems, callback, inv ) {
+	var ret = [];
+
+	// Go through the array, only saving the items
+	// that pass the validator function
+	for ( var i = 0, length = elems.length; i < length; i++ )
+		if ( !inv != !callback( elems[ i ], i ) )
+			ret.push( elems[ i ] );
+
+	return ret;
+}
+
+function addClass(elem, className) {
+	alert(elem.className);
+	elem.className += (elem.className ? " " : "") + className;
+}
+
+function removeClass(elem, className) {
+	elem.className = grep(elem.className.split(/\s+/), function(name){
+		return name == className;
+	}, true).join(" ");
+}
+
 function setSelection(item) {
 	if (item == current_file) return;
 	var bReopenQuickLook = cancel_quicklook();
 	if (current_file) {
-		current_file.parentNode.parentNode.style.background = "";
+		removeClass(current_file.parentNode.parentNode, "selected");
 		current_file.style.display = "";
 	}
 	current_file = item;
-	if (current_file) {
-		current_file.parentNode.parentNode.style.background = "#e5e5e5";
+	if (current_file) {		
+		addClass(current_file.parentNode.parentNode, "selected");
 		current_file.style.display = "none";
 		current_file.onfocus();
 		scrollToItem(current_file);
@@ -197,7 +224,7 @@ document.onkeydown = function keyPress(event) {
 	  event.stopPropagation();
 	  event.preventDefault();
 	}
-}
+};
 document.onkeyup = function keyPress(event) {
     if (typeof event == "undefined") event = window.event;
     wkey = event.keyCode;
@@ -225,8 +252,8 @@ document.onkeyup = function keyPress(event) {
         if (event.shiftKey && event.altKey) insertPath();
         else if (event.shiftKey) insertRelPath();
         else if (event.altKey) openFile();
-        else goto();
+        else gotofile();
 	  event.stopPropagation();
 	  event.preventDefault();
     }
-}
+};
