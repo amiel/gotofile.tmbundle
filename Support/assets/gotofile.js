@@ -27,7 +27,8 @@ var current_ql_command_id=0;
 function startSearch(t) {
     term = t;
     window.clearTimeout(aTimer);
-    aTimer = window.setTimeout("startSearchTimed()", 1);
+    myCommand.cancel();
+    aTimer = window.setTimeout("startSearchTimed()", 5);
 }
 function startSearchTimed() {
     TextMate.isBusy = true;
