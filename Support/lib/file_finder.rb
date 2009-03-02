@@ -19,7 +19,7 @@ if project_path.nil?
   exit
 end
 
-search_string = ARGV[0].gsub(/([^\\]) /, '\1') # this would be better with a look-behind, but this works
+search_string = ARGV[0].gsub(/(\\( ))|(([^\\]) )/, '\2')
 
 if search_string.empty?
   print '<p class="notice">Please enter a search</p>'
