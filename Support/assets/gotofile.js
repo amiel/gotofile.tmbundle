@@ -15,7 +15,7 @@ var oldterm;
   dpath = dpath + "/";
 
 var rpath = fpath.replace(dpath,'');
-outStr = "";
+var outStr = "";
 var startTimer;
 var progressTimer;
 var term;
@@ -29,7 +29,7 @@ function startSearch(t) {
     term = t;
     window.clearTimeout(startTimer);
     if (myCommand) myCommand.cancel();
-    startTimer = window.setTimeout("startSearchTimed()", 5);
+    startTimer = window.setTimeout("startSearchTimed()", 0);
 }
 function startProgressWheel() {
     window.clearTimeout(progressTimer);
@@ -243,6 +243,10 @@ document.onkeyup = function keyPress(event) {
 	  event.preventDefault();
     }
     if (wkey == 27) {
+        if (myCommand) myCommand.cancel();
+        window.clearTimeout(progressTimer);
+        window.clearTimeout(startTimer);
+        stopProgressWheel();
         if (document.getElementById('search').value == "")
                 window.close();
         else
