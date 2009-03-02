@@ -61,7 +61,8 @@ Can be found here: http://github.com/amiel/gotofile.tmbundle
 # ToDo / wish list #
 
 * window should close when a file is opened (maybe configurable as it seems that some people like that it stays open)
-* clean up javascript (incorporate [sizzle](http://sizzlejs.com/))
+* take out duplicate files
+* clean up javascript (incorporate [sizzle](http://sizzlejs.com/) or jquery)
 
 ***also check out the todo list on the [github wiki](http://wiki.github.com/amiel/gotofile.tmbundle/todo)***
 

@@ -48,7 +48,7 @@ begin
     sc = (p[:score].to_f * 100).to_i
     sc = sc > 100 ? 100 : sc
     hpath = p[:highlighted_path]
-    hpath = hpath.split("/(?!span)").reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
+    hpath = hpath.split(%r{/(?!span)}).reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
     puts template.result(binding)
     
     cnt = cnt + 1
