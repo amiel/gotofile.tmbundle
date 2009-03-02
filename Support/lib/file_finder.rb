@@ -58,7 +58,7 @@ begin
     end
   end
 rescue FuzzyFileFinder::TooManyEntries
-  puts %(<p class="error">The root directory ‘#{project_path.gsub(/^#{ENV['HOME']}/, '~')}’ contains more than #{TM_FUZZYFINDER_CEILING} files. To increase the number of files parsed set up a TextMate shell variable <code>TM_CEILING</code> accordingly.</p>)
+  puts %(<p class="error">The root directory ‘#{project_path.gsub(/^#{ENV['HOME']}/, '~')}’ contains more than #{TM_FUZZYFINDER_CEILING} files. To increase the number of files parsed set up a TextMate shell variable <code>TM_FUZZYFINDER_CEILING</code> accordingly.</p>)
 rescue
   puts %(<p class="error">#{$!}</p>)  
 end
