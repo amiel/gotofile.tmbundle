@@ -64,11 +64,6 @@ html, body
 	width: 15%;
 }
 
-.file .in_wrapper
-{
-	display: none;
-	height: 4px;
-}
 
 .file .score
 {
