@@ -31,7 +31,7 @@ if search_string =~ /\\(?! )/
   TM_FUZZYFINDER_REVERSEPATHMODE = true
   search_string = search_string.split(/\\(?! )/).reverse.join("/")
 else
-  search_string = search_string.split("/").reverse.join("/") if TM_FUZZYFINDER_REVERSEPATHMODE
+  search_string = search_string.split(/\\(?! )/).reverse.join("/") if TM_FUZZYFINDER_REVERSEPATHMODE
 end
 
 asset_path = ENV['TM_BUNDLE_SUPPORT'] + '/assets'
@@ -51,14 +51,16 @@ begin
     hpath = hpath.split(%r{/(?!span)}).reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
     puts template.result(binding)
     
-    cnt = cnt + 1
+    cnt += 1
     if cnt > MAX_OUTPUT
       puts %(<p class="notice">&hellip; more than #{MAX_OUTPUT} files found.</p>)
       break
     end
   end
+rescue FuzzyFileFinder::TooManyEntries
+  puts %(<p class="error">The root directory ‘#{project_path.gsub(/^#{ENV['HOME']}/, '~')}’ contains more than #{TM_FUZZYFINDER_CEILING} files. To increase the number of files parsed set up a TextMate shell variable <code>TM_FUZZYFINDER_CEILING</code> accordingly.</p>)
 rescue
-  puts $!
+  puts %(<p class="error">#{$!}</p>)  
 end
 
 
