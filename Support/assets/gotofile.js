@@ -33,19 +33,26 @@ function startProgressWheel() {
 }
 function showProgressWheel() {
     document.getElementById("progress").innerHTML = "<img class='progress_image' src='file://"+ bundle_support +"/assets/progress_wheel.gif'>";
+    document.getElementById("footer").style.height = "16px";
 }
 function stopProgressWheel() {
     window.clearTimeout(progressTimer);
     document.getElementById("progress").innerHTML = "";
+    document.getElementById("footer_progress").style.width = "0px";
+    document.getElementById("footer").style.height = "0px";
+    document.getElementById("footer_progress_text").innerHTML = "";
 }
 function startSearchTimed() {
     TextMate.isBusy = false;
+    document.getElementById("footer_progress").style.width = "0px";
+    document.getElementById("footer_progress_text").innerHTML = "";
     outStr = "";
     startProgressWheel();
     setSelection(null);
     var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + term + "'";
     myCommand = TextMate.system(cmd, function(task) {});
     myCommand.onreadoutput = output;
+    myCommand.onreaderror = erroutput;
 }
 function output(str) {
     outStr += str;
@@ -53,6 +60,11 @@ function output(str) {
     document.getElementById("result").innerHTML = outStr;
     if (current_file == null)
         changeSelect(1);
+}
+function erroutput(str) {
+    arr = str.split("|",2);
+    document.getElementById("footer_progress").style.width = arr[0];
+    document.getElementById("footer_progress_text").innerHTML = arr[1];
 }
 
 function setFile(path) {

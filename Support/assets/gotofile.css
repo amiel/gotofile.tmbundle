@@ -28,6 +28,35 @@ html, body
 	-webkit-appearance: searchfield;
 }
 
+#footer
+{
+	background-color: #666;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAYAAADvCdDvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAOhJREFUeNrs3UuKAkEURUELyi+KioXoWt27qYtwcMA40Bu4wUsoJz2NMV4rZZq/f2sztEDeZmiBDDMAERAgAgJEQIDIh6ELkQuRCwEiT5YLkQsBIk+WC5ELkQsBIk+WCxEQT5ZcCBABERAgAgJEvkNciIAAERABASIgQAQEiID8H4jfslyIgAARECACAkS+Q1yIgMiT5UIExJOlnzaNMZ5maIE8zNACuZuhBbKYoQVyM0ML5GqGFsjFDC2QsxlaICcztECOZmiBHMzQAtmboQWyM0MLZGuGFsjGDC0Q/5w4BjKbodNHgAEA3LJ02F62uMsAAAAASUVORK5CYII=);
+	border-bottom: 0px solid #666;
+	height: 0px;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	z-index: 7;
+}
+#footer_progress
+{
+	background-color: #1553AA;
+	height: 100%;
+	width: 0px;
+}
+#footer_progress_text
+{
+  color: #ffffff;
+  font-size: 7pt;
+	height: 14px;
+	position: fixed;
+	left: 10px;
+	bottom: 0px;
+	width: 100%;
+	z-index: 8;
+}
+
 /* Search Results */
 #result
 {
@@ -141,7 +170,7 @@ html, body
 	width: 10%;
 	height: 10%;
 	margin: auto;
-	z-index: 8;
+	z-index: 9;
 }
 .progress_image {
 	width: 56px;
