@@ -65,7 +65,7 @@ function setFile(path) {
 
 function gotofile() {
     if (actpath != "") {
-        myCommand = TextMate.system("mate '" + actpath + "'", function(task) {});
+        myCommand = TextMate.system("file -b '" + actpath + "' | grep text && mate '" + actpath + "'", function(task) {});
     }
 }
 function insertPath() {
