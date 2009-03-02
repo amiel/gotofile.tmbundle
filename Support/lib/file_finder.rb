@@ -21,7 +21,7 @@ end
 
 search_string = ARGV[0].gsub(/(\\( ))|(([^\\]) )/, '\2')
 
-if search_string.empty?
+if search_string.nil? || search_string.empty?
   print '<p class="notice">Please enter a search</p>'
   exit
 end
@@ -62,5 +62,8 @@ rescue FuzzyFileFinder::TooManyEntries
 rescue
   puts %(<p class="error">#{$!}</p>)  
 end
+
+puts %(<p class="notice">nothing found</p>) if cnt == 0 and !search_string.nil? and !search_string.empty? 
+
 
 

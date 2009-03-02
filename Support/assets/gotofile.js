@@ -16,7 +16,8 @@ var oldterm;
 
 var rpath = fpath.replace(dpath,'');
 outStr = "";
-var aTimer;
+var startTimer;
+var progressTimer;
 var term;
 var ft;
 var current_file=null;
@@ -26,26 +27,36 @@ var current_ql_command_id=0;
 
 function startSearch(t) {
     term = t;
-    window.clearTimeout(aTimer);
-    myCommand.cancel();
-    aTimer = window.setTimeout("startSearchTimed()", 5);
+    window.clearTimeout(startTimer);
+    if (myCommand) myCommand.cancel();
+    startTimer = window.setTimeout("startSearchTimed()", 5);
+}
+function startProgressWheel() {
+    window.clearTimeout(progressTimer);
+    progressTimer = window.setTimeout("showProgressWheel()", 500);
+}
+function showProgressWheel() {
+    document.getElementById("progress").innerHTML = "<img class='progress_image' src='file://"+ bundle_support +"/assets/progress_wheel.gif'>";
+}
+function stopProgressWheel() {
+    window.clearTimeout(progressTimer);
+    document.getElementById("progress").innerHTML = "";
 }
 function startSearchTimed() {
-    TextMate.isBusy = true;
+    TextMate.isBusy = false;
     outStr = "";
-    document.getElementById("result").innerHTML = "";
+    startProgressWheel();
     setSelection(null);
     var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + term + "'";
-    myCommand = TextMate.system(cmd,
-    function(task) {});
+    myCommand = TextMate.system(cmd, function(task) {});
     myCommand.onreadoutput = output;
-    TextMate.isBusy = false;
 }
 function output(str) {
     outStr += str;
+    stopProgressWheel();
     document.getElementById("result").innerHTML = outStr;
-	if (current_file == null)
-		changeSelect(1);
+    if (current_file == null)
+        changeSelect(1);
 }
 
 function setFile(path) {
@@ -162,7 +173,7 @@ function setSelection(item) {
 		removeClass(current_file.parentNode, "selected");
 	}
 	current_file = item;
-	if (current_file) {		
+	if (current_file) {
 		addClass(current_file.parentNode, "selected");
 		setFile(current_file.value);
 		scrollToItem(current_file);

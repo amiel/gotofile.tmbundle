@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require 'erb'
 
-File.delete("/tmp/TM_db.busy") if File.exist?('/tmp/TM_db.busy')
+# File.delete("/tmp/TM_db.busy") if File.exist?('/tmp/TM_db.busy')
 
 asset_path = ENV['TM_BUNDLE_SUPPORT'] + '/assets'
 

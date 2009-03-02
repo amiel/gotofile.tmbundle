@@ -129,3 +129,19 @@ html, body
 	color: #ff0000;
 	padding: 1% 2%;
 }
+
+/*Progress spinning wheel*/
+#progress {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 10%;
+	height: 10%;
+	margin: auto;
+	z-index: 8;
+}
+.progress_image {
+	width: 56px;
+}
