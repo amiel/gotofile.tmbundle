@@ -204,7 +204,12 @@ class FuzzyFileFinder
     file_regex = Regexp.new(file_regex_raw, Regexp::IGNORECASE)
 
     path_matches = {}
+    counter = 0
+    STDERR.sync = true
     files.each do |file|
+      counter += 1
+      STDERR.write "#{(counter.to_f/files.size*100).to_i}%|#{counter}/#{files.size} files|"
+      STDERR.flush
       path_match = match_path(file.parent, path_matches, path_regex, path_parts.length)
       next if path_match[:missed]
 
