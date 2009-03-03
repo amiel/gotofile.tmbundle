@@ -29,7 +29,7 @@ function startSearch(t) {
 }
 function startProgressWheel() {
     window.clearTimeout(progressTimer);
-    progressTimer = window.setTimeout("showProgressWheel()", 500);
+    progressTimer = window.setTimeout("showProgressWheel()", 100);
 }
 function showProgressWheel() {
     document.getElementById("progress").innerHTML = "<img class='progress_image' src='file://"+ bundle_support +"/assets/progress_wheel.gif'>";
