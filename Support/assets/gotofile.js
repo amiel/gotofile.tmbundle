@@ -1,20 +1,12 @@
 /*
  * the following will be assigned by the ruby file
  * * bundle_support
- * * dpath
- * * fpath
  * * path_to_ruby
  */
-
-
 
 var myCommand = null;
 var actpath = "";
 var oldterm;
-  fpath = fpath + "/";
-  dpath = dpath + "/";
-
-var rpath = fpath.replace(dpath,'');
 var outStr = "";
 var startTimer;
 var progressTimer;
@@ -24,6 +16,10 @@ var current_file=null;
 var current_ql_command=null;
 var current_ql_command_id=0;
 
+function init() {
+	document.getElementById("search").focus();
+	startSearch("");
+}
 
 function startSearch(t) {
     term = t;
@@ -37,19 +33,26 @@ function startProgressWheel() {
 }
 function showProgressWheel() {
     document.getElementById("progress").innerHTML = "<img class='progress_image' src='file://"+ bundle_support +"/assets/progress_wheel.gif'>";
+    document.getElementById("footer").style.height = "16px";
 }
 function stopProgressWheel() {
     window.clearTimeout(progressTimer);
     document.getElementById("progress").innerHTML = "";
+    document.getElementById("footer_progress").style.width = "0px";
+    document.getElementById("footer").style.height = "0px";
+    document.getElementById("footer_progress_text").innerHTML = "";
 }
 function startSearchTimed() {
     TextMate.isBusy = false;
+    document.getElementById("footer_progress").style.width = "0px";
+    document.getElementById("footer_progress_text").innerHTML = "";
     outStr = "";
     startProgressWheel();
     setSelection(null);
     var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + term + "'";
     myCommand = TextMate.system(cmd, function(task) {});
     myCommand.onreadoutput = output;
+    myCommand.onreaderror = erroutput;
 }
 function output(str) {
     outStr += str;
@@ -58,6 +61,11 @@ function output(str) {
     if (current_file == null)
         changeSelect(1);
 }
+function erroutput(str) {
+    arr = str.split("|",2);
+    document.getElementById("footer_progress").style.width = arr[0];
+    document.getElementById("footer_progress_text").innerHTML = arr[1];
+}
 
 function setFile(path) {
     actpath = path;
@@ -65,35 +73,25 @@ function setFile(path) {
 
 function gotofile() {
     if (actpath != "") {
-        myCommand = TextMate.system("file -b '" + actpath + "' | grep text && mate '" + actpath + "'", function(task) {});
+        TextMate.system("file -b '" + actpath + "' | grep text && mate '" + actpath + "' &", null);
     }
 }
 function insertPath() {
     if (actpath != "") {
-        cmd = "osascript -e 'tell app \"TextMate\" to insert \"${1:"+actpath+"}\" as snippet true' &";
+        cmd = "osascript '" + bundle_support + "/lib/insertPath.applescript' '" + actpath + "' &";
         TextMate.system(cmd, null);
-        TextMate.system("open 'txmt://open?'", null);
     }
 }
 function insertRelPath() {
     if (actpath != "") {
-        relpath = actpath.replace(dpath,'');
-        sp = rpath.split("/");
-        rp = "";
-        if(actpath.replace(/\/[^\/]*\/?$/, '')+"/" == fpath) {
-            relpath = actpath.replace(fpath,'');
-        } else {
-            for(n=0; n<(sp.length-1);n++) {rp=rp+"../";}
-        }
-        cmd = "osascript -e 'tell app \"TextMate\" to insert \"${1:"+rp+relpath+"}\" as snippet true' &";
+        cmd = "osascript '" + bundle_support + "/lib/insertRelPath.applescript' '" + actpath + "' &";
         TextMate.system(cmd, null);
-        TextMate.system("open 'txmt://open?'", null);
     }
 }
 function openFile() {
-    if (actpath != "") {
-        myCommand = TextMate.system("open '" + actpath + "'", function(task) {});
-    }
+	if (actpath != "") {
+		TextMate.system("open '" + actpath + "' &", null);
+	}
 }
 function cancel_quicklook() {
 	var closed_quicklook = current_ql_command != null;
