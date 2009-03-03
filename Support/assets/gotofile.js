@@ -73,25 +73,25 @@ function setFile(path) {
 
 function gotofile() {
     if (actpath != "") {
-        myCommand = TextMate.system("file -b '" + actpath + "' | grep text && mate '" + actpath + "'", function(task) {});
+        TextMate.system("file -b '" + actpath + "' | grep text && mate '" + actpath + "' &", null);
     }
 }
 function insertPath() {
     if (actpath != "") {
-        cmd = "osascript '" + bundle_support + "/lib/insertPath.applescript' '" + actpath + "'&";
+        cmd = "osascript '" + bundle_support + "/lib/insertPath.applescript' '" + actpath + "' &";
         TextMate.system(cmd, null);
     }
 }
 function insertRelPath() {
     if (actpath != "") {
-        cmd = "osascript '" + bundle_support + "/lib/insertRelPath.applescript' '" + actpath + "'&";
+        cmd = "osascript '" + bundle_support + "/lib/insertRelPath.applescript' '" + actpath + "' &";
         TextMate.system(cmd, null);
     }
 }
 function openFile() {
-    if (actpath != "") {
-        myCommand = TextMate.system("open '" + actpath + "'", function(task) {});
-    }
+	if (actpath != "") {
+		TextMate.system("open '" + actpath + "' &", null);
+	}
 }
 function cancel_quicklook() {
 	var closed_quicklook = current_ql_command != null;
