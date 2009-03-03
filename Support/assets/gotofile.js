@@ -66,9 +66,8 @@ function gotofile() {
 }
 function insertPath() {
     if (actpath != "") {
-        cmd = "osascript -e 'tell app \"TextMate\" to insert \"${1:"+actpath+"}\" as snippet true' &";
+        cmd = "osascript '" + bundle_support + "/lib/insertPath.applescript' '" + actpath + "'&";
         TextMate.system(cmd, null);
-        TextMate.system("open 'txmt://open?'", null);
     }
 }
 function insertRelPath() {
