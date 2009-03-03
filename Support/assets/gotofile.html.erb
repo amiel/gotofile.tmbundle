@@ -12,7 +12,7 @@
 <script src="file://<%= js_path %>" type="text/javascript"></script>
 	
 </head>
-<body onload='document.getElementById("search").focus();startSearch("")'>
+<body onload='init()'>
 	<div id='head'>
 		<input accesskey="f" tabindex='0' id='search' type='search' incremental autosave='TMFFFSearch' results='20' size='25' placeholder='look for files' onsearch='startSearch(this.value);'>
 	</div>

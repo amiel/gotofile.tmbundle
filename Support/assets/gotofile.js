@@ -1,20 +1,12 @@
 /*
  * the following will be assigned by the ruby file
  * * bundle_support
- * * dpath
- * * fpath
  * * path_to_ruby
  */
-
-
 
 var myCommand = null;
 var actpath = "";
 var oldterm;
-  fpath = fpath + "/";
-  dpath = dpath + "/";
-
-var rpath = fpath.replace(dpath,'');
 var outStr = "";
 var startTimer;
 var progressTimer;
@@ -24,6 +16,10 @@ var current_file=null;
 var current_ql_command=null;
 var current_ql_command_id=0;
 
+function init() {
+	document.getElementById("search").focus();
+	startSearch("");
+}
 
 function startSearch(t) {
     term = t;
@@ -89,17 +85,8 @@ function insertPath() {
 }
 function insertRelPath() {
     if (actpath != "") {
-        relpath = actpath.replace(dpath,'');
-        sp = rpath.split("/");
-        rp = "";
-        if(actpath.replace(/\/[^\/]*\/?$/, '')+"/" == fpath) {
-            relpath = actpath.replace(fpath,'');
-        } else {
-            for(n=0; n<(sp.length-1);n++) {rp=rp+"../";}
-        }
-        cmd = "osascript -e 'tell app \"TextMate\" to insert \"${1:"+rp+relpath+"}\" as snippet true' &";
+        cmd = "osascript '" + bundle_support + "/lib/insertRelPath.applescript' '" + actpath + "'&";
         TextMate.system(cmd, null);
-        TextMate.system("open 'txmt://open?'", null);
     }
 }
 function openFile() {

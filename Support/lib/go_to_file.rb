@@ -11,8 +11,6 @@ project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FIL
 
 js_vars = {
   :bundle_support => ENV['TM_BUNDLE_SUPPORT'],
-  :fpath => ENV['TM_DIRECTORY'],
-  :dpath => project_path,
   :path_to_ruby => ENV['TM_RUBY'] || 'ruby',
 }.collect { |var, value| "var #{var} = '#{value}';\n" }
 
