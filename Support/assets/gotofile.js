@@ -77,6 +77,7 @@ jQuery.extend(GoToFile, {
 			
 			this.progress_wheel.start();
 			this.set_selection(null);
+			this.output_buffer = "";
 			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + $("#search").val() + "'";
 			this.textmate_command = TextMate.system(cmd, function(task) {});
 			this.textmate_command.onreadoutput = function(str){ GoToFile.instance.handle_command_stdout(str); };
@@ -84,10 +85,11 @@ jQuery.extend(GoToFile, {
 		},
 		
 		handle_command_stdout: function(str){
+			this.output_buffer += str;
 			this.progress_wheel.stop();
-			$("#result").append(str);
-			// $('#result').text($('#result').text() + str);
-			// $('#result').html($('#result').html() + str);
+			// $('#result).append() doesn't work here because str is buffered
+			// and we are not guarranteed that str is valid html
+			$('#result').html(this.output_buffer);
 			if (this.selected_file == null)
 				this.change_selection(0);
 		},
