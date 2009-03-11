@@ -147,7 +147,7 @@ class FuzzyFileFinder
     rescan!
   end
 
-  # Rescans the subtree. If the directory contents every change,
+  # Rescans the subtree. If the directory contents ever change,
   # you'll need to call this to force the finder to be aware of
   # the changes.
   def rescan!

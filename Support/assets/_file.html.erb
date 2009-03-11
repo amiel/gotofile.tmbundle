@@ -1,10 +1,10 @@
-<div class='file'>
-	<div title='<%= sc %>%' class='score_wrapper'>
-		<div class='score' style='width: <%= sc %>%;'></div>
+<div class="file" id="result_<%= cnt %>">
+	<div title="<%= sc %>%" class="score_wrapper">
+		<div class="score" style="width: <%= sc %>%;"></div>
 	</div>
-	<input type='hidden' name="path" value="<%= p[:path] %>">
+	<input type="hidden" name="path" value="<%= p[:path] %>">
 	<div>
-		<span class='mylink' title='<%= p[:path].gsub(/^#{ENV['HOME']}/, '~') %>' onclick='myClick("<%= p[:path] %>")'>
+		<span class="mylink" title="<%= p[:path].gsub(/^#{ENV['HOME']}/, '~') %>">
 			<%= hpath %>
 		</span>
 	</div>

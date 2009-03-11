@@ -27,11 +27,9 @@ if search_string.nil? || search_string.empty?
 end
 
 
-if search_string =~ /\\(?! )/
+if TM_FUZZYFINDER_REVERSEPATHMODE or search_string =~ /\\(?! )/
   TM_FUZZYFINDER_REVERSEPATHMODE = true
   search_string = search_string.split(/\\(?! )/).reverse.join("/")
-else
-  search_string = search_string.split(/\\(?! )/).reverse.join("/") if TM_FUZZYFINDER_REVERSEPATHMODE
 end
 
 asset_path = ENV['TM_BUNDLE_SUPPORT'] + '/assets'
@@ -46,7 +44,7 @@ template = ERB.new(File.read(template_path))
 begin
   FuzzyFileFinder.new(project_path, TM_FUZZYFINDER_CEILING, TM_FUZZYFINDER_IGNORE, FuzzyFileFinder::HtmlCharacterRun).find(search_string).sort{|b,a| a[:score] <=> b[:score] }.each do |p|
     sc = (p[:score].to_f * 100).to_i
-    sc = sc > 100 ? 100 : sc
+    sc = 100 if sc > 100
     hpath = p[:highlighted_path]
     hpath = hpath.split(%r{/(?!span)}).reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
     puts template.result(binding)
@@ -63,7 +61,7 @@ rescue
   puts %(<p class="error">#{$!}</p>)  
 end
 
-puts %(<p class="notice">nothing found</p>) if cnt == 0 and !search_string.nil? and !search_string.empty? 
+puts %(<p class="notice">nothing found</p>) if cnt == 0
 
 
 
