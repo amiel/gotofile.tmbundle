@@ -134,7 +134,7 @@ html, body
 .selected .fuzzyff_match
 { 
 	background: transparent;
-	text-decoration: underline; 
+	text-decoration: underline;
 }
 
 /* Notices */
@@ -171,6 +171,7 @@ html, body
 	height: 10%;
 	margin: auto;
 	z-index: 9;
+	display: none;
 }
 .progress_image {
 	width: 56px;
