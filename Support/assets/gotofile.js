@@ -40,18 +40,21 @@ jQuery.extend(GoToFile, {
 	handle_keydown: function(event){
 		if (typeof event == "undefined") event = window.event;
 		var wkey = event.keyCode;
-		if (wkey == 32 || wkey == 27) {
-			event.stopPropagation();
-			event.preventDefault();
-		} else if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34 || wkey == 9) {
-			event.stopPropagation();
-			event.preventDefault();
-			if (wkey == 38) GoToFile.instance.change_selection(-1);
-			if (wkey == 40) GoToFile.instance.change_selection(1);
-		}
-		
-		if (wkey == 68) {
-			$('#result').text($('#result').html());
+		// $('#result').text(wkey);
+		switch(wkey) {
+			case 9: // tab
+			case 38: // up
+			case 40: // down
+			case 33: // page up
+			case 34: // page down
+				GoToFile.instance.change_selection_by_key(wkey);
+				// fallthrough intended
+			case 32: // space
+			case 27: // escape
+			case 13: // enter
+				event.stopPropagation();
+				event.preventDefault();	
+				break;
 		}
 	},
 	
@@ -76,28 +79,35 @@ jQuery.extend(GoToFile, {
 			$("#result").empty();
 			
 			this.progress_wheel.start();
-			this.set_selection(null);
+			this.set_selection(0);
+			this.selected_file = null;
 			this.output_buffer = "";
+			
 			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + $("#search").val() + "'";
-			this.textmate_command = TextMate.system(cmd, function(task) {});
-			this.textmate_command.onreadoutput = function(str){ GoToFile.instance.handle_command_stdout(str); };
-			this.textmate_command.onreaderror = function(str){ GoToFile.instance.handle_command_stderr(str); };
+			this.textmate_command = TextMate.system(cmd, function(task) {
+				GoToFile.instance.textmate_command_finished();
+			});
+			this.textmate_command.onreadoutput = function(str){ GoToFile.instance.textmate_command_stdout(str); };
+			this.textmate_command.onreaderror = function(str){ GoToFile.instance.textmate_command_stderr(str); };
 		},
 		
-		handle_command_stdout: function(str){
+		textmate_command_stdout: function(str){
 			this.output_buffer += str;
-			this.progress_wheel.stop();
 			// $('#result).append() doesn't work here because str is buffered
 			// and we are not guarranteed that str is valid html
-			$('#result').html(this.output_buffer);
-			if (this.selected_file == null)
-				this.change_selection(0);
 		},
 		
-		handle_command_stderr: function(str){
+		textmate_command_stderr: function(str){
 			var arr = str.split("|",2);
 			$("#footer_progress").css('width', arr[0]);
 			$("#footer_progress_text").html(arr[1]);
+		},
+		
+		textmate_command_finished: function(){
+			this.progress_wheel.stop();
+			$('#result').html(this.output_buffer);
+			if (this.selected_file == null)
+				this.change_selection(0);
 		},
 		
 		progress_wheel: {
@@ -115,7 +125,7 @@ jQuery.extend(GoToFile, {
 				window.clearTimeout(this.progress_timer);
 				$("#progress").hide();
 				$("#footer_progress").css('width', '0');
-				$("#footer").css('height', "0px");
+				$("#footer").css('height', '0');
 				$("#footer_progress_text").empty();
 			}
 		},
@@ -136,6 +146,32 @@ jQuery.extend(GoToFile, {
 			if (num >= total_count) num = 0;
 			if (num < 0) num = total_count - 1;
 			this.set_selection(new SelectedFile(num));
+		},
+		
+		change_selection_by_key: function(wkey){
+			var num = 0;
+			switch(wkey) {
+				case 9: // tab
+					if (event.shiftKey)
+						num = -1;
+					else
+						num = 1;
+					break;
+				case 38: // up
+					num = -1;
+					break;
+				case 40: // down
+					num = 1;
+					break;
+				case 33: // page up
+					num = -10;
+					break;
+				case 34: // page down
+					num = 10;
+					break;
+			}
+			
+			this.change_selection(num);
 		},
 		
 		// 
