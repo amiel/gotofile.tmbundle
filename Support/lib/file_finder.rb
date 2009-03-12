@@ -47,6 +47,8 @@ begin
     sc = 100 if sc > 100
     hpath = p[:highlighted_path]
     hpath = hpath.split(%r{/(?!span)}).reverse.join("&lt;") if TM_FUZZYFINDER_REVERSEPATHMODE
+    absolute_path = p[:path]
+    friendly_path = absolute_path.gsub(/^#{ENV['HOME']}/, '~')
     puts template.result(binding)
     
     cnt += 1
