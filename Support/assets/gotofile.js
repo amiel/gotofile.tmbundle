@@ -39,19 +39,18 @@ jQuery.extend(GoToFile, {
 		
 	handle_keydown: function(event){
 		if (typeof event == "undefined") event = window.event;
-		var wkey = event.keyCode;
 		// $('#result').text(wkey);
-		switch(wkey) {
+		switch(event.keyCode) {
 			case 9: // tab
 			case 38: // up
 			case 40: // down
 			case 33: // page up
 			case 34: // page down
-				GoToFile.instance.change_selection_by_key(wkey);
-				// fallthrough intended
+				GoToFile.instance.change_selection_for_event(event);
+				// fallthrough intentional to stop propagation
 			case 32: // space
 			case 27: // escape
-			case 13: // enter
+			case 13: // return/enter
 				event.stopPropagation();
 				event.preventDefault();	
 				break;
@@ -59,13 +58,28 @@ jQuery.extend(GoToFile, {
 	},
 	
 	handle_keyup: function(event){
-		// $('#result').append('up dude   ');
-		
-		event.stopPropagation();
-		event.preventDefault();
-		// $('#result').text(event.keyCode);
+		if (typeof event == "undefined") event = window.event;
+		switch(event.keyCode) {
+			case 27: // escape
+			case 32: // space
+			case 13: // return/enter
+				GoToFile.instance.action_for_event(event);
+				// fallthrough intentional to stop propagation
+			case 9: // tab
+			case 38: // up
+			case 40: // down
+			case 33: // page up
+			case 34: // page down
+				event.stopPropagation();
+				event.preventDefault();
+				break;
+		}
 	},
 
+	handle_click: function(num){
+		GoToFile.instance.set_selection(new SelectedFile(num));
+		GoToFile.instance.action_select_file(event);
+	},
 	
 
 	/* instance methods and variables */
@@ -148,9 +162,9 @@ jQuery.extend(GoToFile, {
 			this.set_selection(new SelectedFile(num));
 		},
 		
-		change_selection_by_key: function(wkey){
+		change_selection_for_event: function(event){
 			var num = 0;
-			switch(wkey) {
+			switch(event.keyCode) {
 				case 9: // tab
 					if (event.shiftKey)
 						num = -1;
@@ -173,6 +187,39 @@ jQuery.extend(GoToFile, {
 			
 			this.change_selection(num);
 		},
+
+		action_for_event: function(event){
+			switch(event.keyCode) {
+				case 27: // escape
+					if (this.textmate_command) this.textmate_command.cancel();
+					this.progress_wheel.stop();
+					if ($('#search').val() == "")
+						window.close();
+					else
+						$('#search').val("");
+					break;
+				case 32: // space
+					if (event.altKey)
+						this.insert_escaped_space();
+					else
+						this.selected_file.quicklook();
+					break;
+				case 13: // return/enter
+					this.action_select_file(event);
+					break;
+			}
+		},
+		
+		/*
+		 * this is what is run when a file is chosen
+		 * ie, it is clicked on or enter is pressed
+		 */
+		action_select_file: function(event) {
+			if (event.shiftKey && event.altKey) this.selected_file.insert_path();
+			else if (event.shiftKey) this.selected_file.insert_relative_path();
+			else if (event.altKey) this.selected_file.open_file();
+			else this.selected_file.go_to_file();
+		},
 		
 		// 
 		// example usage:
@@ -182,10 +229,8 @@ jQuery.extend(GoToFile, {
 			var _func = arguments[0] || null,
 				_obj = this;
 
-			/*
-			 * get rid of the first argument (was the function)
-			 * we would use shift() but arguments is not actually an array
-			 */
+			 // get rid of the first argument (was the function)
+			 // we would use shift() but arguments is not actually an array
 			var _args = $.grep(arguments, function(v, i) {
 			        return i > 0;
 			});
@@ -201,50 +246,40 @@ jQuery.extend(GoToFile, {
 jQuery.extend(SelectedFile, {
 	prototype: {
 		
+		go_to_file: function(){
+			var cmd = "file -b '" + this.actual_path() + "' | grep -q text && mate '" + this.actual_path() + "' &";
+			TextMate.system(cmd, null);
+		},
+		
+		insert_path: function(){
+			var cmd = "osascript '" + bundle_support + "/lib/insertPath.applescript' '" + this.actual_path() + "' &";
+	        TextMate.system(cmd, null);
+		},
+		
+		insert_relative_path: function(){
+			var cmd = "osascript '" + bundle_support + "/lib/insertRelPath.applescript' '" + this.actual_path() + "' &";
+	        TextMate.system(cmd, null);
+		},
+		
+		open_file: function(){
+			TextMate.system("open '" + this.actual_path() + "' &", null);
+		},
+		
+		actual_path: function(){
+			return $(this.selector).find('input[name=path]').val();
+		}
 	}
 });
 
-// var myCommand = null;
-var actpath = "";
-// var oldterm;
-var outStr = "";
-// var startTimer;
-var progressTimer;
-var term;
-var ft;
-var current_file=null;
+
+
+
 var current_ql_command=null;
 var current_ql_command_id=0;
 
 
 
 
-function setFile(path) {
-    actpath = path;
-}
-
-function gotofile() {
-    if (actpath != "") {
-        TextMate.system("file -b '" + actpath + "' | grep text && mate '" + actpath + "' &", null);
-    }
-}
-function insertPath() {
-    if (actpath != "") {
-        cmd = "osascript '" + bundle_support + "/lib/insertPath.applescript' '" + actpath + "' &";
-        TextMate.system(cmd, null);
-    }
-}
-function insertRelPath() {
-    if (actpath != "") {
-        cmd = "osascript '" + bundle_support + "/lib/insertRelPath.applescript' '" + actpath + "' &";
-        TextMate.system(cmd, null);
-    }
-}
-function openFile() {
-	if (actpath != "") {
-		TextMate.system("open '" + actpath + "' &", null);
-	}
-}
 function cancel_quicklook() {
 	var closed_quicklook = current_ql_command != null;
 	if (current_ql_command)
@@ -293,42 +328,7 @@ function scrollToItem(item) {
 }
 
 
-function setSelection(item) {
-	if (item == current_file) return;
-	var bReopenQuickLook = cancel_quicklook();
-	if (current_file) {
-		removeClass(current_file.parentNode, "selected");
-	}
-	current_file = item;
-	if (current_file) {
-		addClass(current_file.parentNode, "selected");
-		setFile(current_file.value);
-		scrollToItem(current_file);
-		if (bReopenQuickLook)
-			quicklook();
-	}
-}
 
-function changeSelect(y) {
-	var oItems = document.getElementById('result').getElementsByTagName("input");
-	var iCurIndex = -1;
-	if (current_file)
-		for (var i=0; i < oItems.length; i++) {
-			if (oItems[i] == current_file) {
-				iCurIndex = i;
-				break;
-			}
-		};
-	iCurIndex += y;
-	if (iCurIndex >= oItems.length) iCurIndex = 0;
-	if (iCurIndex < 0) iCurIndex = oItems.length - 1;
-	if (iCurIndex >= 0 && iCurIndex < oItems.length) {
-		setSelection(oItems[iCurIndex]);
-	}
-	else {
-		setSelection(null);
-	};
-}
 
 function insertEscapedSpace() {
 	var searchBox = document.getElementById('search');
