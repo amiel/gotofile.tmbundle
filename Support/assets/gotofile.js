@@ -155,7 +155,7 @@ jQuery.extend(GoToFile, {
 		
 		change_selection: function(delta){
 			var num = 0,
-				total_count = $('#result').children().length;
+				total_count = $('#result').find('.file').length;
 			if (this.selected_file) num = this.selected_file.num;
 			num += delta;
 			if (num >= total_count) num = 0;

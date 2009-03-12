@@ -2,9 +2,9 @@
 	<div title="<%= sc %>%" class="score_wrapper">
 		<div class="score" style="width: <%= sc %>%;"></div>
 	</div>
-	<input type="hidden" name="path" value="<%= p[:path] %>">
+	<input type="hidden" name="path" value="<%= absolute_path %>">
 	<div>
-		<span class="mylink" title="<%= p[:path].gsub(/^#{ENV['HOME']}/, '~') %>" onclick="GoToFile.handle_click(<%= cnt %>)">
+		<span class="mylink" title="<%= friendly_path %>" onclick="GoToFile.handle_click(<%= cnt %>)">
 			<%= hpath %>
 		</span>
 	</div>
