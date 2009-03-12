@@ -149,6 +149,7 @@ jQuery.extend(GoToFile, {
 			this.selected_file = file;
 			if (this.selected_file) {
 				$(this.selected_file.selector).addClass('selected');
+				this.selected_file.scroll_to();
 			}
 		},
 		
@@ -265,13 +266,39 @@ jQuery.extend(SelectedFile, {
 			TextMate.system("open '" + this.actual_path() + "' &", null);
 		},
 		
+		
+		
+		// get_top_offset: function(item) {
+		// 	var parent = item;
+		// 	var top = item.offsetTop;
+		// 	while(parent = parent.offsetParent)
+		// 		top += parent.offsetTop;
+		// 	return top;
+		// },
+		
+		scroll_to: function() {
+			var item = $(this.selector)[0];
+			var itemPos = $(this.selector).position().top; //this.get_top_offset(item);
+			var headHeight = $('#head')[0].offsetHeight;
+			// $('#result').append('scroll_to itemPos(' + itemPos + ') headHieght(' + headHeight + ')<br>');
+			if (itemPos < document.body.scrollTop + headHeight) {
+				document.body.scrollTop = itemPos - headHeight - 1;
+			} else if ((itemPos + item.offsetHeight >= document.body.clientHeight + document.body.scrollTop)) {
+				document.body.scrollTop = itemPos - document.body.clientHeight + item.offsetHeight + 1;
+			}
+		},
+		
+		
+		
 		actual_path: function(){
 			return $(this.selector).find('input[name=path]').val();
 		}
 	}
 });
 
+GoToFile.setup();
 
+/* below is old code that we are cleaning up */
 
 
 var current_ql_command=null;
@@ -301,31 +328,8 @@ function quicklook() {
 	}
 }
 
-function myClick(path) {
-    wkey = event.keyCode;
-    actpath = path;
-    if (event.shiftKey && event.altKey) insertPath();
-    else if (event.shiftKey) insertRelPath();
-    else if (event.altKey) openFile();
-    else gotofile();
-}
 
-function getItemTopOffset(item) {
-	var parent = item;
-	var top = item.offsetTop;
-	while(parent = parent.offsetParent)
-		top += parent.offsetTop;
-	return top;
-}
-function scrollToItem(item) {
-	var itemPos = getItemTopOffset(item.parentNode);
-	var headHeight = document.getElementById('head').offsetHeight;
-	if (itemPos < document.body.scrollTop + headHeight) {
-		document.body.scrollTop = itemPos - headHeight - 2;
-	} else if ((itemPos + item.parentNode.offsetHeight >= document.body.clientHeight + document.body.scrollTop)) {
-		document.body.scrollTop = itemPos;
-	}
-}
+
 
 
 
@@ -399,4 +403,3 @@ function insertEscapedSpace() {
 //     }
 // };
 
-GoToFile.setup();
