@@ -4,7 +4,7 @@
 	</div>
 	<input type="hidden" name="path" value="<%= p[:path] %>">
 	<div>
-		<span class="mylink" title="<%= p[:path].gsub(/^#{ENV['HOME']}/, '~') %>">
+		<span class="mylink" title="<%= p[:path].gsub(/^#{ENV['HOME']}/, '~') %>" onclick="GoToFile.handle_click(<%= cnt %>)">
 			<%= hpath %>
 		</span>
 	</div>
