@@ -201,9 +201,9 @@ jQuery.extend(GoToFile, {
 					break;
 				case 32: // space
 					if (event.altKey)
-						this.insert_escaped_space();
+						; // this.insert_escaped_space(); // not implemented yet
 					else
-						this.selected_file.quicklook();
+						; // this.selected_file.quicklook(); // not implemented yet
 					break;
 				case 13: // return/enter
 					this.action_select_file(event);
@@ -266,16 +266,6 @@ jQuery.extend(SelectedFile, {
 			TextMate.system("open '" + this.actual_path() + "' &", null);
 		},
 		
-		
-		
-		// get_top_offset: function(item) {
-		// 	var parent = item;
-		// 	var top = item.offsetTop;
-		// 	while(parent = parent.offsetParent)
-		// 		top += parent.offsetTop;
-		// 	return top;
-		// },
-		
 		scroll_to: function() {
 			var item = $(this.selector)[0];
 			var itemPos = $(this.selector).position().top; //this.get_top_offset(item);
@@ -286,9 +276,7 @@ jQuery.extend(SelectedFile, {
 			} else if ((itemPos + item.offsetHeight >= document.body.clientHeight + document.body.scrollTop)) {
 				document.body.scrollTop = itemPos - document.body.clientHeight + item.offsetHeight + 1;
 			}
-		},
-		
-		
+		},	
 		
 		actual_path: function(){
 			return $(this.selector).find('input[name=path]').val();
@@ -303,8 +291,6 @@ GoToFile.setup();
 
 var current_ql_command=null;
 var current_ql_command_id=0;
-
-
 
 
 function cancel_quicklook() {
@@ -332,8 +318,6 @@ function quicklook() {
 
 
 
-
-
 function insertEscapedSpace() {
 	var searchBox = document.getElementById('search');
 	var query = searchBox.value;
@@ -343,63 +327,3 @@ function insertEscapedSpace() {
 	searchBox.selectionEnd = searchBox.selectionStart;
 	startSearch(searchBox.value);
 }
-// document.onkeydown = function keyPress(event) {
-//     if (typeof event == "undefined") event = window.event;
-//     wkey = event.keyCode;
-// 	if (wkey == 32 || wkey == 27) {
-// 		event.stopPropagation();
-// 		event.preventDefault();
-// 	} else if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34 || wkey == 9) {
-// 	  event.stopPropagation();
-// 	  event.preventDefault();
-// 	var iDiff = 1;
-// 	if (wkey == 33)
-// 		iDiff = -10;
-// 	else if (wkey == 34)
-// 		iDiff = 10;
-// 	else if (wkey == 38 || (wkey == 9 && event.shiftKey))
-// 		iDiff = -1;
-// 		
-// 	  changeSelect(iDiff);
-//     } else if (wkey == 13) {
-// 	  event.stopPropagation();
-// 	  event.preventDefault();
-// 	}
-// };
-// document.onkeyup = function keyPress(event) {
-//     if (typeof event == "undefined") event = window.event;
-//     wkey = event.keyCode;
-//     if (wkey == 38 || wkey == 40 || wkey == 33 || wkey == 34 || wkey == 9) { /* up, down, page up, page down, tab *?
-// 	  event.stopPropagation();
-// 	  event.preventDefault();
-//     }
-//     if (wkey == 27) { /* escape */
-//         if (myCommand) myCommand.cancel();
-//         window.clearTimeout(progressTimer);
-//         window.clearTimeout(startTimer);
-//         stopProgressWheel();
-//         if (document.getElementById('search').value == "")
-//                 window.close();
-//         else
-//                 document.getElementById('search').value = "";
-//         event.stopPropagation();
-//         event.preventDefault();
-//     }
-//     if (wkey == 32) { /* space */
-// 		if (event.altKey)
-// 			insertEscapedSpace();
-// 		else
-// 			quicklook();
-// 		event.stopPropagation();
-// 		event.preventDefault();
-// 	}
-//     if (wkey == 13) { /* return */
-//         if (event.shiftKey && event.altKey) insertPath();
-//         else if (event.shiftKey) insertRelPath();
-//         else if (event.altKey) openFile();
-//         else gotofile();
-// 	  event.stopPropagation();
-// 	  event.preventDefault();
-//     }
-// };
-
