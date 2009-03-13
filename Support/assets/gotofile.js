@@ -276,7 +276,7 @@ jQuery.extend(SelectedFile, {
 			} else if ((itemPos + item.offsetHeight >= document.body.clientHeight + document.body.scrollTop)) {
 				document.body.scrollTop = itemPos - document.body.clientHeight + item.offsetHeight + 1;
 			}
-		},	
+		},
 		
 		actual_path: function(){
 			return $(this.selector).find('input[name=path]').val();
