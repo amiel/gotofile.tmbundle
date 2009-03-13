@@ -300,6 +300,7 @@ function cancel_quicklook() {
 	current_ql_command = null;
 	return closed_quicklook;
 }
+
 function quicklook() {
 	if (!current_file) return;
 	var display_id = current_ql_command_id + 1;
@@ -313,9 +314,6 @@ function quicklook() {
 		});
 	}
 }
-
-
-
 
 
 function insertEscapedSpace() {
