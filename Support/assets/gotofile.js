@@ -5,9 +5,8 @@
  */
 
 
-var Helper = function(){};
 
-/* initializer */
+/* initializers */
 var GoToFile = function(){
 	this.selected_file = null;
 };
@@ -17,23 +16,7 @@ var SelectedFile = function(num){
 	this.selector = '#result_' + num;
 };
 
-jQuery.extend(Helper, {
-	show: function(dom_id){
-		Helper.set_style(dom_id, 'display', 'block');
-	},
-	
-	hide: function(dom_id){
-		Helper.set_style(dom_id, 'display', 'none');
-	},
-	
-	set_style: function(dom_id, attribute, value){
-		Helper.element(dom_id).style[attribute] = value;
-	},
-	
-	element: function(dom_id){
-		return document.getElementById(dom_id);
-	}
-});
+var Helper = function(){};
 
 jQuery.extend(GoToFile, {
 	/* constants and class variables */
@@ -107,9 +90,9 @@ jQuery.extend(GoToFile, {
 		start_search: function(){
 			if (this.textmate_command) this.textmate_command.cancel();
 			TextMate.isBusy = false;
-			$("#footer_progress").css('width', "0px");
-			$("#footer_progress_text").empty();
-			$("#result").empty();
+			Helper.set_style("footer_progress", 'width', "0px");
+			Helper.element("footer_progress_text").innerHTML = '';
+			Helper.element("result").innerHTML = '';
 			
 			this.progress_wheel.start();
 			this.set_selection(0);
@@ -133,12 +116,12 @@ jQuery.extend(GoToFile, {
 		textmate_command_stderr: function(str){
 			var arr = str.split("|",2);
 			Helper.set_style("footer_progress", 'width', arr[0]);
-			$("#footer_progress_text").html(arr[1]);
+			Helper.element("footer_progress_text").innerHTML = arr[1];
 		},
 		
 		textmate_command_finished: function(){
 			this.progress_wheel.stop();
-			$('#result').html(this.output_buffer);
+			Helper.element('result').innerHTML = this.output_buffer;
 			if (this.selected_file == null)
 				this.change_selection(0);
 		},
@@ -151,15 +134,15 @@ jQuery.extend(GoToFile, {
 		
 			show: function(){
 				Helper.show("progress");
-				$("#footer").css('height', "16px");
+				Helper.set_style("footer", 'height', "16px");
 			},
 		
 			stop: function(){
 				window.clearTimeout(this.progress_timer);
-				$("#progress").hide();
-				$("#footer_progress").css('width', '0');
-				$("#footer").css('height', '0');
-				$("#footer_progress_text").empty();
+				Helper.hide("progress");
+				Helper.set_style("footer_progress", 'width', '0');
+				Helper.set_style("footer", 'height', '0');
+				Helper.element("footer_progress_text").innerHTML = '';
 			}
 		},
 
@@ -213,10 +196,10 @@ jQuery.extend(GoToFile, {
 				case 27: // escape
 					if (this.textmate_command) this.textmate_command.cancel();
 					this.progress_wheel.stop();
-					if ($('#search').val() == "")
+					if (Helper.element('search').value == "")
 						window.close();
 					else
-						$('#search').val("");
+						Helper.element('search').value = '';
 					break;
 				case 32: // space
 					if (event.altKey)
@@ -302,6 +285,27 @@ jQuery.extend(SelectedFile, {
 		}
 	}
 });
+
+
+jQuery.extend(Helper, {
+	show: function(dom_id){
+		Helper.set_style(dom_id, 'display', 'block');
+	},
+	
+	hide: function(dom_id){
+		Helper.set_style(dom_id, 'display', 'none');
+	},
+	
+	set_style: function(dom_id, attribute, value){
+		Helper.element(dom_id).style[attribute] = value;
+	},
+	
+	element: function(dom_id){
+		return document.getElementById(dom_id);
+	}
+});
+
+
 
 GoToFile.setup();
 
