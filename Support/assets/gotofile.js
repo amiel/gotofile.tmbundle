@@ -5,6 +5,7 @@
  */
 
 
+var Helper = function(){};
 
 /* initializer */
 var GoToFile = function(){
@@ -15,6 +16,24 @@ var SelectedFile = function(num){
 	this.num = num;
 	this.selector = '#result_' + num;
 };
+
+jQuery.extend(Helper, {
+	show: function(dom_id){
+		Helper.set_style(dom_id, 'display', 'block');
+	},
+	
+	hide: function(dom_id){
+		Helper.set_style(dom_id, 'display', 'none');
+	},
+	
+	set_style: function(dom_id, attribute, value){
+		Helper.element(dom_id).style[attribute] = value;
+	},
+	
+	element: function(dom_id){
+		return document.getElementById(dom_id);
+	}
+});
 
 jQuery.extend(GoToFile, {
 	/* constants and class variables */
@@ -113,7 +132,7 @@ jQuery.extend(GoToFile, {
 		
 		textmate_command_stderr: function(str){
 			var arr = str.split("|",2);
-			$("#footer_progress").css('width', arr[0]);
+			Helper.set_style("footer_progress", 'width', arr[0]);
 			$("#footer_progress_text").html(arr[1]);
 		},
 		
@@ -131,7 +150,7 @@ jQuery.extend(GoToFile, {
 			},
 		
 			show: function(){
-				$("#progress").show();
+				Helper.show("progress");
 				$("#footer").css('height', "16px");
 			},
 		
