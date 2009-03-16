@@ -13,7 +13,7 @@ var GoToFile = function(){
 
 var SelectedFile = function(num){
 	this.num = num;
-	this.selector = '#result_' + num;
+	this.selector = 'result_' + num;
 };
 
 var Helper = function(){};
@@ -26,19 +26,19 @@ jQuery.extend(GoToFile, {
 	/* class methods */
 	
 	setup: function(){
-		$(document).ready(function(){
+		window.setTimeout(function(){
 			GoToFile.instance = new GoToFile; /* create a global instance */
-			$("#search").focus();
-			$(document).keydown(GoToFile.handle_keydown);
-			$(document).keyup(GoToFile.handle_keyup);
-		});
+			Helper.element("search").focus();
+			document.onkeydown = GoToFile.handle_keydown;
+			document.onkeyup = GoToFile.handle_keyup;
+		}, 1); // wait for page to load in an unreliable way
 	},
+	
 	
 	handle_search: function(value){
 		GoToFile.instance.start_search(value);
 	},
 	
-		
 	handle_keydown: function(event){
 		if (typeof event == "undefined") event = window.event;
 		// $('#result').text(wkey);
@@ -83,6 +83,12 @@ jQuery.extend(GoToFile, {
 		GoToFile.instance.action_select_file(event);
 	},
 	
+	// this callback gets called by fuzzy_file_finder.rb
+	// to indicate the progress of scanning through files
+	progress: function(percent, text){
+		Helper.set_style("footer_progress", 'width', percent);
+		Helper.element("footer_progress_text").innerHTML = text;		
+	},
 
 	/* instance methods and variables */
 	prototype: {
@@ -107,6 +113,7 @@ jQuery.extend(GoToFile, {
 			this.textmate_command.onreaderror = function(str){ GoToFile.instance.textmate_command_stderr(str); };
 		},
 		
+		
 		textmate_command_stdout: function(str){
 			this.output_buffer += str;
 			// $('#result).append() doesn't work here because str is buffered
@@ -114,9 +121,7 @@ jQuery.extend(GoToFile, {
 		},
 		
 		textmate_command_stderr: function(str){
-			var arr = str.split("|",2);
-			Helper.set_style("footer_progress", 'width', arr[0]);
-			Helper.element("footer_progress_text").innerHTML = arr[1];
+			eval(str);
 		},
 		
 		textmate_command_finished: function(){
@@ -147,10 +152,10 @@ jQuery.extend(GoToFile, {
 		},
 
 		set_selection: function(file){
-			if (this.selected_file) $(this.selected_file.selector).removeClass('selected');
+			if (this.selected_file) Helper.remove_class(this.selected_file.selector, 'selected');
 			this.selected_file = file;
 			if (this.selected_file) {
-				$(this.selected_file.selector).addClass('selected');
+				Helper.add_class(this.selected_file.selector, 'selected');
 				this.selected_file.scroll_to();
 			}
 		},
@@ -281,6 +286,7 @@ jQuery.extend(SelectedFile, {
 		},
 		
 		actual_path: function(){
+			// document.getElementById('result').getElementsByTagName("input");
 			return $(this.selector).find('input[name=path]').val();
 		}
 	}
@@ -288,6 +294,18 @@ jQuery.extend(SelectedFile, {
 
 
 jQuery.extend(Helper, {
+	add_class: function(dom_id, klass){
+		Helper.element(dom_id).className += ' ' + klass;
+	},
+	
+	// this doesn't really cover every possible case
+	// ie, if an element has a class foo-de-bar and you called remove_class(element, 'bar')...
+	remove_class: function(dom_id, klass){
+		var e = Helper.element(dom_id);
+		var new_class_name = e.className.replace(new RegExp("\\b" + klass + "\\b"), ' ');
+		e.className = new_class_name;
+	},
+	
 	show: function(dom_id){
 		Helper.set_style(dom_id, 'display', 'block');
 	},

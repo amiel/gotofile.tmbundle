@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby -wKU
 
+# STDOUT from this file is expected to be HTML and is placed in the <div id="result"> section of gotofile.html.erb
+# STDERR from this file is expected to be javascript and is evaluated
+
+
 require 'erb'
 
 # max number of found files after sorting by score
