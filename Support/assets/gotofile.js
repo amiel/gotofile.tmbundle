@@ -105,7 +105,7 @@ jQuery.extend(GoToFile, {
 			this.selected_file = null;
 			this.output_buffer = "";
 			
-			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + $("#search").val() + "'";
+			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + Helper.element("search").value + "'";
 			this.textmate_command = TextMate.system(cmd, function(task) {
 				GoToFile.instance.textmate_command_finished();
 			});
@@ -162,7 +162,7 @@ jQuery.extend(GoToFile, {
 		
 		change_selection: function(delta){
 			var num = 0,
-				total_count = $('#result').find('.file').length;
+				total_count = Helper.element('result').getElementsByTagName('input').length;
 			if (this.selected_file) num = this.selected_file.num;
 			num += delta;
 			if (num >= total_count) num = 0;
@@ -273,11 +273,11 @@ jQuery.extend(SelectedFile, {
 			TextMate.system("open '" + this.actual_path() + "' &", null);
 		},
 		
+		
 		scroll_to: function() {
-			var item = $(this.selector)[0];
-			var itemPos = $(this.selector).position().top; //this.get_top_offset(item);
-			var headHeight = $('#head')[0].offsetHeight;
-			// $('#result').append('scroll_to itemPos(' + itemPos + ') headHieght(' + headHeight + ')<br>');
+			var item = Helper.element(this.selector),
+				itemPos = Helper.get_top_offset(this.selector),
+				headHeight = Helper.element('head').offsetHeight;
 			if (itemPos < document.body.scrollTop + headHeight) {
 				document.body.scrollTop = itemPos - headHeight - 1;
 			} else if ((itemPos + item.offsetHeight >= document.body.clientHeight + document.body.scrollTop)) {
@@ -286,8 +286,7 @@ jQuery.extend(SelectedFile, {
 		},
 		
 		actual_path: function(){
-			// document.getElementById('result').getElementsByTagName("input");
-			return $(this.selector).find('input[name=path]').val();
+			return Helper.element(this.selector).getElementsByTagName('input')[0].value;
 		}
 	}
 });
@@ -302,8 +301,7 @@ jQuery.extend(Helper, {
 	// ie, if an element has a class foo-de-bar and you called remove_class(element, 'bar')...
 	remove_class: function(dom_id, klass){
 		var e = Helper.element(dom_id);
-		var new_class_name = e.className.replace(new RegExp("\\b" + klass + "\\b"), ' ');
-		e.className = new_class_name;
+		e.className = e.className.replace(new RegExp("\\b" + klass + "\\b"), ' ');
 	},
 	
 	show: function(dom_id){
@@ -316,6 +314,17 @@ jQuery.extend(Helper, {
 	
 	set_style: function(dom_id, attribute, value){
 		Helper.element(dom_id).style[attribute] = value;
+	},
+	
+	get_top_offset: function(dom_id){
+		var element = Helper.element(dom_id),
+			top_offset = 0;
+
+		while(element != null){
+			top_offset += element.offsetTop;
+			element = element.offsetParent;
+		}
+		return top_offset;
 	},
 	
 	element: function(dom_id){
