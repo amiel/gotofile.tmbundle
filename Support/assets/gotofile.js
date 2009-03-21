@@ -106,13 +106,16 @@ create_object(GoToFile, {
 			Helper.set_style("footer_progress", 'width', "0px");
 			Helper.element("footer_progress_text").innerHTML = '';
 			Helper.element("result").innerHTML = '';
+
 			
 			this.progress_wheel.start();
-			this.set_selection(0);
 			this.selected_file = null;
 			this.output_buffer = "";
+			this.set_selection(0);
+			
 			
 			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + Helper.element("search").value + "'";
+			
 			this.textmate_command = TextMate.system(cmd, function(task) {
 				GoToFile.instance.textmate_command_finished();
 			});
@@ -132,8 +135,7 @@ create_object(GoToFile, {
 		textmate_command_finished: function(){
 			this.progress_wheel.stop();
 			Helper.element('result').innerHTML = this.output_buffer;
-			if (this.selected_file == null)
-				this.change_selection(0);
+			this.change_selection(0);
 		},
 		
 		progress_wheel: {
@@ -163,6 +165,11 @@ create_object(GoToFile, {
 				Helper.add_class(this.selected_file.selector, 'selected');
 				this.selected_file.scroll_to();
 			}
+		},
+		
+		insert_escaped_space: function(){
+			Helper.insert_escaped_space('search');
+			this.start_search();
 		},
 		
 		change_selection: function(delta){
@@ -213,7 +220,7 @@ create_object(GoToFile, {
 					break;
 				case 32: // space
 					if (event.altKey)
-						; // this.insert_escaped_space(); // not implemented yet
+						this.insert_escaped_space();
 					else
 						; // this.selected_file.quicklook(); // not implemented yet
 					break;
@@ -291,6 +298,16 @@ create_object(Helper, {
 		e.className = e.className.replace(new RegExp("\\b" + klass + "\\b"), ' ');
 	},
 	
+	insert_escaped_space: function(dom_id){
+		var searchBox = this.element(dom_id),
+			query = searchBox.value,
+			selStart = searchBox.selectionStart;
+		searchBox.value = query.substr(0, selStart) + "\\ " + query.substr(searchBox.selectionEnd);
+		searchBox.selectionStart = selStart + 2;
+		searchBox.selectionEnd = searchBox.selectionStart;
+		return searchBox.value;
+	},
+	
 	show: function(dom_id){
 		Helper.set_style(dom_id, 'display', 'block');
 	},
@@ -312,6 +329,11 @@ create_object(Helper, {
 			element = element.offsetParent;
 		}
 		return top_offset;
+	},
+	
+	debug: function(s, t){
+		Helper.element('debug').innerHTML = s;
+		setTimeout(function(){ Helper.element('debug').innerHTML = ''; }, t||1000);
 	},
 	
 	element: function(dom_id){
@@ -353,12 +375,4 @@ function quicklook() {
 }
 
 
-function insertEscapedSpace() {
-	var searchBox = document.getElementById('search');
-	var query = searchBox.value;
-	var selStart = searchBox.selectionStart;
-	searchBox.value = query.substr(0, selStart) + "\\ " + query.substr(searchBox.selectionEnd);
-	searchBox.selectionStart = selStart + 2;
-	searchBox.selectionEnd = searchBox.selectionStart;
-	startSearch(searchBox.value);
-}
+

@@ -47,8 +47,8 @@ html, body
 }
 #footer_progress_text
 {
-  color: #ffffff;
-  font-size: 7pt;
+	color: #ffffff;
+	font-size: 7pt;
 	height: 14px;
 	position: fixed;
 	left: 10px;
@@ -176,3 +176,5 @@ html, body
 .progress_image {
 	width: 56px;
 }
+
+#debug{ color: black; position: fixed; z-index: 9; top: 41px; }
