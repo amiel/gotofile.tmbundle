@@ -6,6 +6,12 @@
 
 
 
+function create_object(object, properties) {
+	for (var prop in properties) {
+		object[prop] = properties[prop];
+	}
+}
+
 /* initializers */
 var GoToFile = function(){
 	this.selected_file = null;
@@ -18,7 +24,8 @@ var SelectedFile = function(num){
 
 var Helper = function(){};
 
-jQuery.extend(GoToFile, {
+
+create_object(GoToFile, {
 	/* constants and class variables */
 	/* make this a singleton */
 	instance: null,
@@ -41,7 +48,7 @@ jQuery.extend(GoToFile, {
 	
 	handle_keydown: function(event){
 		if (typeof event == "undefined") event = window.event;
-		// $('#result').text(wkey);
+
 		switch(event.keyCode) {
 			case 9: // tab
 			case 38: // up
@@ -116,8 +123,6 @@ jQuery.extend(GoToFile, {
 		
 		textmate_command_stdout: function(str){
 			this.output_buffer += str;
-			// $('#result).append() doesn't work here because str is buffered
-			// and we are not guarranteed that str is valid html
 		},
 		
 		textmate_command_stderr: function(str){
@@ -227,31 +232,13 @@ jQuery.extend(GoToFile, {
 			else if (event.shiftKey) this.selected_file.insert_relative_path();
 			else if (event.altKey) this.selected_file.open_file();
 			else this.selected_file.go_to_file();
-		},
-		
-		// 
-		// example usage:
-		// 
-		// setTimeout(this.bind(func, arg), 5000);	
-		bind: function() {
-			var _func = arguments[0] || null,
-				_obj = this;
-
-			 // get rid of the first argument (was the function)
-			 // we would use shift() but arguments is not actually an array
-			var _args = $.grep(arguments, function(v, i) {
-			        return i > 0;
-			});
-
-			return function() {
-			        return _func.apply(_obj, _args);
-			};
 		}
 	}
 });
 
 
-jQuery.extend(SelectedFile, {
+
+create_object(SelectedFile, {
 	prototype: {
 		
 		go_to_file: function(){
@@ -292,7 +279,7 @@ jQuery.extend(SelectedFile, {
 });
 
 
-jQuery.extend(Helper, {
+create_object(Helper, {
 	add_class: function(dom_id, klass){
 		Helper.element(dom_id).className += ' ' + klass;
 	},
