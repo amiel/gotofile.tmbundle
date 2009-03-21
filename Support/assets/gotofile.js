@@ -348,8 +348,8 @@ GoToFile.setup();
 /* below is old code that we are cleaning up */
 
 
-var current_ql_command=null;
-var current_ql_command_id=0;
+var current_ql_command = null;
+var current_ql_command_id = 0;
 
 
 function cancel_quicklook() {
