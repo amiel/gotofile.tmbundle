@@ -139,6 +139,8 @@ create_object(GoToFile, {
 		},
 		
 		progress_wheel: {
+			progress_timer: null,
+			
 			start: function(){
 				window.clearTimeout(this.progress_timer);
 				this.progress_timer = window.setTimeout(this.show, 2);
@@ -158,6 +160,7 @@ create_object(GoToFile, {
 			}
 		},
 
+
 		set_selection: function(file){
 			if (this.selected_file) Helper.remove_class(this.selected_file.selector, 'selected');
 			this.selected_file = file;
@@ -174,12 +177,14 @@ create_object(GoToFile, {
 		
 		change_selection: function(delta){
 			var num = 0,
+				reopen_quicklook = SelectedFile.quicklook.cancel(),
 				total_count = Helper.element('result').getElementsByTagName('input').length;
 			if (this.selected_file) num = this.selected_file.num;
 			num += delta;
 			if (num >= total_count) num = 0;
 			if (num < 0) num = total_count - 1;
 			this.set_selection(new SelectedFile(num));
+			if (reopen_quicklook) this.selected_file.quicklook();
 		},
 		
 		change_selection_for_event: function(event){
@@ -222,7 +227,7 @@ create_object(GoToFile, {
 					if (event.altKey)
 						this.insert_escaped_space();
 					else
-						; // this.selected_file.quicklook(); // not implemented yet
+						if (this.selected_file) this.selected_file.quicklook();
 					break;
 				case 13: // return/enter
 					this.action_select_file(event);
@@ -246,7 +251,38 @@ create_object(GoToFile, {
 
 
 create_object(SelectedFile, {
+	// quicklook needs to keep its state beyond
+	// SelectedFileS short life		
+	quicklook: {
+		command: null,
+		command_id: 0,
+
+		cancel: function(){
+			var closed_quicklook = this.command != null;
+			if (this.command) this.command.cancel();
+			this.command = null;
+			return closed_quicklook;
+		},
+
+		open: function(file){
+			var display_id = this.command_id + 1;
+			if (this.command) {
+				this.cancel();
+			} else {
+				this.command_id = display_id;
+				this.command = TextMate.system("qlmanage -p '" + file + "'", function(task){
+					var that = SelectedFile.quicklook;
+					if (display_id = that.command_id)
+						that.command = null;
+				});
+			}
+		}
+	},
+	
 	prototype: {
+		quicklook: function(){
+			SelectedFile.quicklook.open(this.actual_path());
+		},
 		
 		go_to_file: function(){
 			var cmd = "file -b '" + this.actual_path() + "' | grep -q text && mate '" + this.actual_path() + "' &";
@@ -342,37 +378,5 @@ create_object(Helper, {
 });
 
 
-
 GoToFile.setup();
-
-/* below is old code that we are cleaning up */
-
-
-var current_ql_command = null;
-var current_ql_command_id = 0;
-
-
-function cancel_quicklook() {
-	var closed_quicklook = current_ql_command != null;
-	if (current_ql_command)
-		current_ql_command.cancel();
-	current_ql_command = null;
-	return closed_quicklook;
-}
-
-function quicklook() {
-	if (!current_file) return;
-	var display_id = current_ql_command_id + 1;
-	if (current_ql_command)
-		cancel_quicklook();
-	else {
-		current_ql_command_id = display_id;
-		current_ql_command = TextMate.system("qlmanage -p '" + actpath + "'", function(task) {
-			if (display_id == current_ql_command_id)
-				current_ql_command = null;
-		});
-	}
-}
-
-
 
