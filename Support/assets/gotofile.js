@@ -1,11 +1,11 @@
 /*
  * the following will be assigned by the ruby file
- * * bundle_support
- * * path_to_ruby
+ * * var bundle_support
+ * * var path_to_ruby
  */
 
 
-
+/* class creation helper */
 function create_object(object, properties) {
 	for (var prop in properties) {
 		object[prop] = properties[prop];
