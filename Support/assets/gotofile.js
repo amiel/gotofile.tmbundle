@@ -270,9 +270,9 @@ create_object(SelectedFile, {
 				this.cancel();
 			} else {
 				this.command_id = display_id;
-				this.command = TextMate.system("qlmanage -p '" + file + "'", function(task){
+				this.command = TextMate.system("qlmanage -p '" + file + "'", function(task){					
 					var that = SelectedFile.quicklook;
-					if (display_id = that.command_id)
+					if (display_id == that.command_id)
 						that.command = null;
 				});
 			}
@@ -369,7 +369,8 @@ create_object(Helper, {
 	
 	debug: function(s, t){
 		Helper.element('debug').innerHTML = s;
-		setTimeout(function(){ Helper.element('debug').innerHTML = ''; }, t||1000);
+		Helper.show('debug');
+		setTimeout(function(){ Helper.hide('debug'); }, t||1000);
 	},
 	
 	element: function(dom_id){

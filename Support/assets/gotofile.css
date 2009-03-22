@@ -177,4 +177,4 @@ html, body
 	width: 56px;
 }
 
-#debug{ color: black; position: fixed; z-index: 9; top: 41px; }
+#debug{ color: black; position: fixed; z-index: 9; top: 41px; display: none; }
