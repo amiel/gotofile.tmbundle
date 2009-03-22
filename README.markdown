@@ -15,7 +15,7 @@ To ignore certain files add a TextMate shell variable called `TM_FUZZYFINDER_IGN
 
 As default there is a limit of 10.000 files in the tree structure. To increase/decrease that maximum number add the TextMate shell variable `TM_FUZZYFINDER_CEILING` and set it accordingly.
 
-This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's [“FuzzyFileFinder”](http://github.com/amiel/gotofile.tmbundle/tree/amiels_original) bundle which a few code fragments are taken from.
+This GUI makes usage of makes usage of Jamis Buck's [“Fuzzy File Finder”](http://github.com/jamis/fuzzy_file_finder) and was inspired by Amiel Martin's FuzzyFileFinder.tmbundle which a few code fragments are taken from.
 
 # Installation #
 
@@ -31,7 +31,7 @@ git clone git://github.com/amiel/gotofile.tmbundle.git GoToFile.tmbundle
 
 # Usage #
 
-<button>⇧⌘K</button> invokes “GoToFile”. The root directory will be taken from `$TM_PROJECT_DIRECTORY` || `$TM_DIRECTORY` || current directory. “GoToFile” won't work on unsaved documents. There is a mouse-over event to display the entire file path.
+<button>⇧⌘K</button> invokes “GoToFile”. The root directory will be taken from `$TM_PROJECT_DIRECTORY` || `$TM_DIRECTORY` || current directory. “GoToFile” won't work on unsaved documents. There is a tool-tip to display the entire file path.
 
 
 ## Input Field ##
@@ -51,6 +51,7 @@ Normally spaces are ignored. If one wants to look for a space one has to escape 
 * <button>SPACE</button> toggles the QuickLook mode (Leopard only)
 * <button>⌥ SPACE</button> adds an (escaped) space character in the search query
 * <button>↑</button> and <button>↓</button> resp. <button>⇥</button> and <button>⇧⇥</button> navigates through the list of files
+* <button>PAGE UP</button> and <button>PAGE DOWN</button> up or down by 10 lines at a time
 * <button>^F</button> sets the focus to the input field
 * <button>⌘W</button> or <button>ESC</button> closes the “GoToFile” window
 
@@ -62,16 +63,12 @@ Can be found here: http://github.com/amiel/gotofile.tmbundle
 
 * window should close when a file is opened (maybe configurable as it seems that some people like that it stays open)
 * take out duplicate files
-* clean up javascript is mostly done
- * whats left is:
- * quicklook
- * insert space (option-space)
+* refactor some code into fuzzy_file_finder.rb from file_finder.rb
 
 ***also check out the todo list on the [github wiki](http://wiki.github.com/amiel/gotofile.tmbundle/todo)***
 
 # Contributions #
 
-***Date: Feb 26 2009***
 <pre>
 -  Jamis Buck &mdash; fuzzy_file_finder library - <a href="mailto:jamis@37signals.com">jamis@37signals.com </a>
 </pre>
