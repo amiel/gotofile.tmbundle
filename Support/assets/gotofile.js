@@ -2,6 +2,11 @@
  * the following will be assigned by the ruby file
  * * var bundle_support
  * * var path_to_ruby
+ *
+ * the following commands are helpful for debugging this file in a browser
+ * run them (^r) in a new file in GoToFile.tmbundle/Support/lib
+ * * TM_BUNDLE_SUPPORT="$TM_DIRECTORY/.." "$TM_DIRECTORY/go_to_file.rb"
+ * * TM_BUNDLE_SUPPORT="$TM_DIRECTORY/.." "$TM_DIRECTORY/file_finder.rb" "o"
  */
 
 
