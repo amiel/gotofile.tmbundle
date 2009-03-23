@@ -148,7 +148,7 @@ create_object(GoToFile, {
 			
 			start: function(){
 				window.clearTimeout(this.progress_timer);
-				this.progress_timer = window.setTimeout(this.show, 2);
+				this.progress_timer = window.setTimeout(this.show, 200);
 			},
 		
 			show: function(){
