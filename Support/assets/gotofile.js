@@ -43,9 +43,9 @@ create_object(GoToFile, {
 			Helper.element("search").value = init_search;
 			Helper.element("search").focus();
 			Helper.element("search").select();
-			GoToFile.instance.start_search(init_search);
 			document.onkeydown = GoToFile.handle_keydown;
 			document.onkeyup = GoToFile.handle_keyup;
+			GoToFile.handle_search(init_search);
 		}, 1); // wait for page to load in an unreliable way
 	},
 	
@@ -122,13 +122,13 @@ create_object(GoToFile, {
 			this.set_selection(0);
 			
 			
-			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" 
-				+ Helper.element("search").value + "'"
+			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + Helper.element("search").value + "'"
 				+ " '" + max_output 	+ "'"
 				+ " '" + init_search 	+ "'"
 				+ " '" + file_ceiling 	+ "'"
 				+ " '" + ignore_globs 	+ "'"
-				+ " '" + reverse_mode 	+ "'";
+				+ " '" + reverse_mode 	+ "'"
+				+ " '" + progress_delay + "'";
 			
 			this.textmate_command = TextMate.system(cmd, function(task) {
 				GoToFile.instance.textmate_command_finished();
@@ -157,7 +157,7 @@ create_object(GoToFile, {
 			
 			start: function(){
 				window.clearTimeout(this.progress_timer);
-				this.progress_timer = window.setTimeout(this.show, 200);
+				this.progress_timer = window.setTimeout(this.show, progress_delay);
 			},
 		
 			show: function(){
@@ -176,6 +176,7 @@ create_object(GoToFile, {
 
 
 		set_selection: function(file){
+			
 			if (this.selected_file) Helper.remove_class(this.selected_file.selector, 'selected');
 			this.selected_file = file;
 			if (this.selected_file) {
@@ -197,6 +198,7 @@ create_object(GoToFile, {
 			num += delta;
 			if (num >= total_count) num = 0;
 			if (num < 0) num = total_count - 1;
+			
 			this.set_selection(new SelectedFile(num));
 			if (reopen_quicklook) this.selected_file.quicklook();
 		},

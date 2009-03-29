@@ -14,13 +14,14 @@ begin
   init_search   = ARGV[2]
   file_ceiling  = Integer(ARGV[3])
   ignore_globs  = ARGV[4]
-  reverse_mode  = ARGV[5]
+  reverse_mode  = (ARGV[5] == '0') ? false : true
+  progress_delay= Integer(ARGV[6])
 rescue
   puts %(<p class="error">#{$!}.</p>)
 end
 
 ignore_glob_array = (ignore_globs.empty?) ? nil : ignore_globs.to_s.split(/ *, */)
-reverse_mode = (reverse_mode == '0') ? false : true
+
 
 project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FILEPATH'] && File.dirname(ENV['TM_FILEPATH'])
 
