@@ -40,7 +40,10 @@ create_object(GoToFile, {
 	setup: function(){
 		window.setTimeout(function(){
 			GoToFile.instance = new GoToFile; /* create a global instance */
+			Helper.element("search").value = init_search;
 			Helper.element("search").focus();
+			Helper.element("search").select();
+			GoToFile.instance.start_search(init_search);
 			document.onkeydown = GoToFile.handle_keydown;
 			document.onkeyup = GoToFile.handle_keyup;
 		}, 1); // wait for page to load in an unreliable way
@@ -119,7 +122,13 @@ create_object(GoToFile, {
 			this.set_selection(0);
 			
 			
-			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + Helper.element("search").value + "'";
+			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" 
+				+ Helper.element("search").value + "'"
+				+ " '" + max_output 	+ "'"
+				+ " '" + init_search 	+ "'"
+				+ " '" + file_ceiling 	+ "'"
+				+ " '" + ignore_globs 	+ "'"
+				+ " '" + reverse_mode 	+ "'";
 			
 			this.textmate_command = TextMate.system(cmd, function(task) {
 				GoToFile.instance.textmate_command_finished();

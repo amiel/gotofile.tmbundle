@@ -3,26 +3,24 @@
 # STDOUT from this file is expected to be HTML and is placed in the <div id="result"> section of gotofile.html.erb
 # STDERR from this file is expected to be javascript and is evaluated
 
-
 require 'erb'
 require File.dirname(__FILE__) + '/fuzzy_file_finder'
+require File.dirname(__FILE__) + '/default_prefs'
+require ENV['TM_SUPPORT_PATH'] + '/lib/osx/plist'
 
-
-## todo : read these values from plist
-# max number of found files after sorting by score
-max_output = 100
-# max number of files scanned
-file_ceiling = 10000
-# file globs ignored
-ignore_globs = "*.tmproj"
-# global reverse mode
-reverse_mode = (reverse_mode == 1) ? true : false
-
-# TM_FUZZYFINDER_REVERSEPATHMODE = (ENV['TM_FUZZYFINDER_REVERSEPATHMODE'] and ENV['TM_FUZZYFINDER_REVERSEPATHMODE'].to_i != 0) ? true : false
-# TM_FUZZYFINDER_IGNORE = ENV['TM_FUZZYFINDER_IGNORE'] ? ENV['TM_FUZZYFINDER_IGNORE'].to_s.split(/,/) : nil
-# TM_FUZZYFINDER_CEILING = ENV['TM_FUZZYFINDER_CEILING'] ? ENV['TM_FUZZYFINDER_CEILING'].to_i : 10000
+# read and check prefs from arguments
+begin
+  max_output    = Integer(ARGV[1])
+  init_search   = ARGV[2]
+  file_ceiling  = Integer(ARGV[3])
+  ignore_globs  = ARGV[4]
+  reverse_mode  = ARGV[5]
+rescue
+  puts %(<p class="error">#{$!}.</p>)
+end
 
 ignore_glob_array = (ignore_globs.empty?) ? nil : ignore_globs.to_s.split(/ *, */)
+reverse_mode = (reverse_mode == '0') ? false : true
 
 project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FILEPATH'] && File.dirname(ENV['TM_FILEPATH'])
 
@@ -46,9 +44,8 @@ end
 
 asset_path = ENV['TM_BUNDLE_SUPPORT'] + '/assets'
 
-
 # counter for outputted files
-cnt = 0
+cnt = 1
 
 template_path = asset_path + '/_file.html.erb'
 template = ERB.new(File.read(template_path))
