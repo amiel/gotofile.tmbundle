@@ -16,7 +16,7 @@ file_ceiling = 10000
 # file globs ignored
 ignore_globs = "*.tmproj"
 # global reverse mode
-reverse_mode = 0
+reverse_mode = (reverse_mode == 1) ? true : false
 
 # TM_FUZZYFINDER_REVERSEPATHMODE = (ENV['TM_FUZZYFINDER_REVERSEPATHMODE'] and ENV['TM_FUZZYFINDER_REVERSEPATHMODE'].to_i != 0) ? true : false
 # TM_FUZZYFINDER_IGNORE = ENV['TM_FUZZYFINDER_IGNORE'] ? ENV['TM_FUZZYFINDER_IGNORE'].to_s.split(/,/) : nil
