@@ -15,7 +15,11 @@ auto_close = (auto_close == 'false') ? false : true;
 reverse_mode = (reverse_mode == 'false') ? false : true;
 progress_delay = parseInt(progress_delay);
 
-
+function showHelp() {
+		var theSheet = Helper.element("help");
+		theSheet.innerHTML = '<p>Here will be pipe: <br>html_header "Go to File — Help" "Go to File" "Help"<br>"$TM_SUPPORT_PATH/lib/markdown_to_help.rb" "$TM_BUNDLE_SUPPORT/help.mdown"<br>html_footer</p>';
+		theSheet.style.top = window.pageYOffset;
+}
 function showPref() {
 	pref_pane_open = true;
 	var theSheet = Helper.element("pref");
