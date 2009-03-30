@@ -9,6 +9,58 @@
  * * TM_BUNDLE_SUPPORT="$TM_DIRECTORY/.." "$TM_DIRECTORY/file_finder.rb" "o"
  */
 
+var pref_pane_open = false;
+
+auto_close = (auto_close == 'false') ? false : true;
+reverse_mode = (reverse_mode == 'false') ? false : true;
+progress_delay = parseInt(progress_delay);
+
+
+function showPref() {
+	pref_pane_open = true;
+	var theSheet = Helper.element("pref");
+	Helper.element("maxOutput").value 			= max_output;
+	Helper.element("initSearchPattern").value 	= init_search;
+	Helper.element("ignoreGlobs").value 		= ignore_globs;
+	Helper.element("fileCeiling").value 		= file_ceiling;
+	Helper.element("progressDelay").value 		= progress_delay;
+	Helper.element("autoClose").checked 		= auto_close;
+	Helper.element("reverseMode").checked 		= reverse_mode;
+	Helper.element("initSearchPattern").focus();
+	theSheet.style.left = '20%';
+	theSheet.style.top = window.pageYOffset;
+	// how to animate ??
+	// how to get rid of resizing the entire window - the sheet should follow ??
+}
+function savePrefs() {
+	max_output 		= Helper.element("maxOutput").value;
+	init_search		= Helper.element("initSearchPattern").value;
+	ignore_globs	= Helper.element("ignoreGlobs").value;
+	file_ceiling	= Helper.element("fileCeiling").value;
+	progress_delay	= parseInt(Helper.element("progressDelay").value);
+	auto_close		= Helper.element("autoClose").checked;
+	reverse_mode	= Helper.element("reverseMode").checked;
+	hideSheet("pref");
+
+	var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/savePrefs.rb'"
+		+ " '" + max_output 	+ "'"
+		+ " '" + init_search 	+ "'"
+		+ " '" + file_ceiling 	+ "'"
+		+ " '" + ignore_globs 	+ "'"
+		+ " '" + reverse_mode 	+ "'"
+		+ " '" + progress_delay + "'"
+		+ " '" + auto_close		+ "'";
+	
+	TextMate.system(cmd, function(task) {});
+	GoToFile.handle_search(Helper.element("search").value);
+}
+function hideSheet(which) {
+	if (which == "pref")
+		pref_pane_open = false;
+	var theSheet = Helper.element(which);
+	theSheet.style.top = -1000;
+}
+
 
 /* class creation helper */
 function create_object(object, properties) {
@@ -58,40 +110,63 @@ create_object(GoToFile, {
 	handle_keydown: function(event){
 		if (typeof event == "undefined") event = window.event;
 
-		switch(event.keyCode) {
-			case 9: // tab
-			case 38: // up
-			case 40: // down
-			case 33: // page up
-			case 34: // page down
-				GoToFile.instance.change_selection_for_event(event);
-				// fallthrough intentional to stop propagation
-			case 32: // space
-			case 27: // escape
-			case 13: // return/enter
-				event.stopPropagation();
-				event.preventDefault();	
-				break;
-		}
+		if (!pref_pane_open)
+			switch(event.keyCode) {
+				case 9: // tab
+				case 38: // up
+				case 40: // down
+				case 33: // page up
+				case 34: // page down
+					GoToFile.instance.change_selection_for_event(event);
+					// fallthrough intentional to stop propagation
+				case 32: // space
+				case 27: // escape
+				case 13: // return/enter
+				case 188: // ,
+					event.stopPropagation();
+					event.preventDefault();	
+					break;
+			}
+		else 
+			switch(event.keyCode) {
+				case 27: // escape
+				case 13: // return/enter
+					event.stopPropagation();
+					event.preventDefault();	
+					break;
+			}
+		
 	},
 	
 	handle_keyup: function(event){
 		if (typeof event == "undefined") event = window.event;
-		switch(event.keyCode) {
-			case 27: // escape
-			case 32: // space
-			case 13: // return/enter
-				GoToFile.instance.action_for_event(event);
-				// fallthrough intentional to stop propagation
-			case 9: // tab
-			case 38: // up
-			case 40: // down
-			case 33: // page up
-			case 34: // page down
-				event.stopPropagation();
-				event.preventDefault();
-				break;
-		}
+
+		if (!pref_pane_open)
+			switch(event.keyCode) {
+				case 27: // escape
+				case 32: // space
+				case 13: // return/enter
+				case 188: // ,
+					GoToFile.instance.action_for_event(event);
+					// fallthrough intentional to stop propagation
+				case 9: // tab
+				case 38: // up
+				case 40: // down
+				case 33: // page up
+				case 34: // page down
+					event.stopPropagation();
+					event.preventDefault();
+					break;
+			}
+		else
+			switch(event.keyCode) {
+				case 27: // escape
+					hideSheet("pref");
+					break;
+				case 13: // return/enter
+					savePrefs();
+					break;
+			}
 	},
 
 	handle_click: function(num){
@@ -110,6 +185,14 @@ create_object(GoToFile, {
 	prototype: {
 
 		start_search: function(){
+
+			// todo : fix if search pattern contains "
+			if (Helper.element("search").value.indexOf('"') != -1) {
+				Helper.element('result').innerHTML = "<p class='error'>Search for \" is not supported.</p>";
+				return;
+			}
+
+
 			if (this.textmate_command) this.textmate_command.cancel();
 			TextMate.isBusy = false;
 			Helper.set_style("footer_progress", 'width', "0px");
@@ -122,8 +205,7 @@ create_object(GoToFile, {
 			this.output_buffer = "";
 			this.set_selection(0);
 			
-			
-			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' '" + Helper.element("search").value + "'"
+			var cmd = "'" + path_to_ruby + "' '" + bundle_support + "/lib/file_finder.rb' \"" + Helper.element("search").value.replace(/\\/g,'\\\\') + "\""
 				+ " '" + max_output 	+ "'"
 				+ " '" + init_search 	+ "'"
 				+ " '" + file_ceiling 	+ "'"
@@ -248,7 +330,13 @@ create_object(GoToFile, {
 					break;
 				case 13: // return/enter
 					this.action_select_file(event);
+					if (auto_close)
+						window.close();
 					break;
+				case 188: // CTRL + , for pref
+					if (event.ctrlKey)
+						showPref();
+						break;
 			}
 		},
 		
@@ -260,7 +348,11 @@ create_object(GoToFile, {
 			if (event.shiftKey && event.altKey) this.selected_file.insert_path();
 			else if (event.shiftKey) this.selected_file.insert_relative_path();
 			else if (event.altKey) this.selected_file.open_file();
-			else this.selected_file.go_to_file();
+			else {
+				this.selected_file.go_to_file();
+				if (auto_close)
+					window.close();
+			}
 		}
 	}
 });

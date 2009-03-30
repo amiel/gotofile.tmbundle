@@ -57,6 +57,37 @@ html, body
 	z-index: 8;
 }
 
+/* Sheets for preferences and help - needs to be fixed */
+.pref_sheet
+{
+	background-color: rgba(238,238,238,0.95);
+	border: 1px solid #ccc;
+	position: absolute;
+	top: -1000;
+	width: 60%;
+	height: 240px;
+	z-index: 20;
+	padding: 2px 8px;
+}
+.pref_sheet .label
+{
+	font-size: 8pt;
+	text-align: right;
+}
+.pref_sheet button
+{
+	width: 60px;
+}
+.pref_button
+{
+	border: 1px solid #ccc;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 30;
+	cursor: pointer;
+}
+
 /* Search Results */
 #result
 {

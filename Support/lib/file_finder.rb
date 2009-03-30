@@ -14,7 +14,7 @@ begin
   init_search     = ARGV[2]
   file_ceiling    = Integer(ARGV[3])
   ignore_globs    = ARGV[4]
-  reverse_mode    = (ARGV[5] == '0') ? false : true
+  reverse_mode    = (ARGV[5] == 'false') ? false : true
   progress_delay  = Integer(ARGV[6])
 rescue
   puts %(<p class="error">#{$!}.</p>)

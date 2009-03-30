@@ -13,8 +13,24 @@
 	
 </head>
 <body>
+	<div id='pref' class='pref_sheet'>
+		<table>
+		<tr><td class='label'>intial search pattern</td><td><input id='initSearchPattern' size="10"></td></tr>
+		<tr><td class='label'>max number of shown files</td><td><input id='maxOutput' size="10"></td></tr>
+		<tr><td class='label'>file ceiling</td><td><input id='fileCeiling' size="10"></td></tr>
+		<tr><td class='label'>ignored file extensions</td><td><input id='ignoreGlobs' size="10"></td></tr>
+		<tr><td class='label'>progress bar delay</td><td><input id='progressDelay' size="10"></td></tr>
+		<tr><td class='label'>auto close</td><td><input id="autoClose" type='checkbox'></td></tr>
+		<tr><td class='label'>reverse mode</td><td><input id="reverseMode" type='checkbox'></td></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td>&nbsp;</td><td><button title="Close “Preferences” without saving [⎋]" onclick='hideSheet("pref")'>Cancel</button> <button title="Close and save “Preferences” [↩]" onclick='savePrefs()'>Save</button></td></tr>
+		</table>
+	</div>
 	<div id='head'>
 		<input accesskey="f" tabindex="0" id="search" type='search' incremental autosave="TMFFFSearch" results="20" size="25" placeholder="look for files" onsearch="GoToFile.handle_search(this.value);">
+	</div>
+	<div class="pref_button">
+		<span title="Press to open “Preferences” [^,]" onclick="showPref()">•</span>
 	</div>
 	<div id="progress">
 		<img class="progress_image" src="file://<%= asset_path_for_html %>/progress_wheel.gif">

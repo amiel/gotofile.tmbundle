@@ -35,16 +35,18 @@ file_ceiling    = Integer(saved_prefs['file_ceiling']).abs rescue file_ceiling =
 ignore_globs    = saved_prefs['ignore_globs'] || default_prefs['ignore_globs']
 reverse_mode    = saved_prefs['reverse_mode'] || default_prefs['reverse_mode']
 progress_delay  = Integer(saved_prefs['progress_delay']).abs rescue progress_delay = Integer(default_prefs['progress_delay'])
+auto_close      = saved_prefs['auto_close'] || default_prefs['auto_close']
 
 js_vars = {
   :bundle_support => ENV['TM_BUNDLE_SUPPORT'],
   :path_to_ruby   => ENV['TM_RUBY'] || 'ruby',
   :max_output     => max_output,
-  :init_search    => init_search,
+  :init_search    => init_search.gsub(/\\/, '\\\\\\'),
   :file_ceiling   => file_ceiling,
   :ignore_globs   => ignore_globs,
   :reverse_mode   => reverse_mode,
   :progress_delay => progress_delay,
+  :auto_close     => auto_close,
 }.collect { |var, value| "var #{var} = '#{value}';\n" }
 
 puts ERB.new(File.read(html_path)).result

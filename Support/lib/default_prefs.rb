@@ -5,8 +5,9 @@ def default_prefs
   'init_search'   => "",      # initial search pattern
   'file_ceiling'  => '10000', # max number of files scanned
   'ignore_globs'  => "",      # file globs ignored
-  'reverse_mode'  => '0',     # global reverse mode
+  'reverse_mode'  => 'false', # global reverse mode
   'progress_delay'=> '200',   # time in ms before progress bar appears
+  'auto_close'    => 'false', # close window after opening selected file in TM
   'pref_path'     => ENV['HOME'] + '/Library/Preferences/com.macromates.textmate.gotofile.plist'
 }
 end

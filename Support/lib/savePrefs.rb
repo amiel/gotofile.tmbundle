@@ -3,6 +3,7 @@
 require File.dirname(__FILE__) + '/default_prefs'
 require ENV['TM_SUPPORT_PATH'] + '/lib/osx/plist'
 
+begin
 prefs = {
   'max_output'      => ARGV[0],
   'init_search'     => ARGV[1],
@@ -10,10 +11,11 @@ prefs = {
   'ignore_globs'    => ARGV[3],
   'reverse_mode'    => ARGV[4],
   'progress_delay'  => ARGV[5],
+  'auto_close'      => ARGV[6],
 }
 
-begin
-  open(default_prefs['pref_path'], "w") {|io| io << prefs.to_plist }
+open(default_prefs['pref_path'], "w") {|io| io << prefs.to_plist }
+
 rescue
   puts $!
 end
