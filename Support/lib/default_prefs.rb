@@ -6,6 +6,7 @@ def default_prefs
   'file_ceiling'  => '10000', # max number of files scanned
   'ignore_globs'  => "",      # file globs ignored
   'reverse_mode'  => '0',     # global reverse mode
-  'progress_delay'=> '200'    # time in ms before progress bar appears
+  'progress_delay'=> '200',   # time in ms before progress bar appears
+  'pref_path'     => ENV['HOME'] + '/Library/Preferences/com.macromates.textmate.gotofile.plist'
 }
 end

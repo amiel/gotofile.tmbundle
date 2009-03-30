@@ -10,12 +10,12 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/osx/plist'
 
 # read and check prefs from arguments
 begin
-  max_output    = Integer(ARGV[1])
-  init_search   = ARGV[2]
-  file_ceiling  = Integer(ARGV[3])
-  ignore_globs  = ARGV[4]
-  reverse_mode  = (ARGV[5] == '0') ? false : true
-  progress_delay= Integer(ARGV[6])
+  max_output      = Integer(ARGV[1])
+  init_search     = ARGV[2]
+  file_ceiling    = Integer(ARGV[3])
+  ignore_globs    = ARGV[4]
+  reverse_mode    = (ARGV[5] == '0') ? false : true
+  progress_delay  = Integer(ARGV[6])
 rescue
   puts %(<p class="error">#{$!}.</p>)
 end

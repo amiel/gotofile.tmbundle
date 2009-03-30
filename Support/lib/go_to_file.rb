@@ -10,10 +10,7 @@ asset_path_for_html = asset_path.gsub(' ', '%20')
 
 html_path = asset_path + '/gotofile.html.erb'
 
-pref_file_path = ENV['HOME'] + '/Library/Preferences/com.macromates.textmate.gotofile.plist'
-
-# why do we need this (bibiko) ??
-# project_path = ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_DIRECTORY'] || ENV['TM_FILEPATH'] && File.dirname(ENV['TM_FILEPATH'])
+pref_file_path = default_prefs['pref_path']
 
 unless File.exist?(pref_file_path)
   begin

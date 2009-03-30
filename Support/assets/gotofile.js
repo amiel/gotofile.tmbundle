@@ -45,7 +45,8 @@ create_object(GoToFile, {
 			Helper.element("search").select();
 			document.onkeydown = GoToFile.handle_keydown;
 			document.onkeyup = GoToFile.handle_keyup;
-			GoToFile.handle_search(init_search);
+			if (init_search.length > 0)
+				GoToFile.handle_search(init_search);
 		}, 1); // wait for page to load in an unreliable way
 	},
 	
