@@ -46,7 +46,7 @@ end
 asset_path = ENV['TM_BUNDLE_SUPPORT'] + '/assets'
 
 # counter for outputted files
-cnt = 1
+cnt = 0
 
 template_path = asset_path + '/_file.html.erb'
 template = ERB.new(File.read(template_path))
@@ -66,7 +66,7 @@ begin
     puts template.result(binding)
     
     cnt += 1
-    if cnt > max_output
+    if cnt >= max_output
       puts %(<p class="notice">&hellip; more than #{max_output} files found.</p>)
       break
     end
