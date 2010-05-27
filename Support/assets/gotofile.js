@@ -55,6 +55,9 @@ create_object(GoToFile, {
 		if (typeof event == "undefined") event = window.event;
 
 		switch(event.keyCode) {
+			case 80: // p
+			case 78: // n
+				if (!event.ctrlKey) break; // only do this for ctrl - p/n
 			case 9: // tab
 			case 38: // up
 			case 40: // down
@@ -195,6 +198,12 @@ create_object(GoToFile, {
 		change_selection_for_event: function(event){
 			var num = 0;
 			switch(event.keyCode) {
+				case 80: // p
+					num = 1;
+					break;
+				case 78: // n
+					num = -1;
+					break;
 				case 9: // tab
 					if (event.shiftKey)
 						num = -1;
