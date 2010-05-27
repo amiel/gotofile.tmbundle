@@ -34,7 +34,7 @@
 #
 # And so forth.
 
-require 'CGI'
+require 'cgi'
 
 class FuzzyFileFinder
   module Version
