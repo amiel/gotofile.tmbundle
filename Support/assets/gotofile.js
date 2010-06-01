@@ -199,10 +199,10 @@ create_object(GoToFile, {
 			var num = 0;
 			switch(event.keyCode) {
 				case 80: // p
-					num = 1;
+					num = -1;
 					break;
 				case 78: // n
-					num = -1;
+					num = 1;
 					break;
 				case 9: // tab
 					if (event.shiftKey)
