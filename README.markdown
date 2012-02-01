@@ -1,3 +1,7 @@
+# OBSOLETE #
+
+This project is made obsolete by TextMate 2. I'm not really working on it anymore, but leaving it here for any folks that are still using TM1.
+
 # Outline #
 
 “GoToFile” imitates TextMate’s “Go to File…” ⌘T functionality [see here](http://manual.macromates.com/en/working_with_multiple_files#moving_between_files_with_grace). In addition it is possible to narrow down the list of files by considering (parts of) the file path using '/' as a delimiter. 
